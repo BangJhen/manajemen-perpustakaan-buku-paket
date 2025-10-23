@@ -9,3 +9,6 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::resource('books', BookController::class);
 Route::resource('categories', CategoryController::class);
+
+// API Routes for AJAX calls
+Route::get('/api/categories/{category}/books', [CategoryController::class, 'getBooks'])->name('api.categories.books');

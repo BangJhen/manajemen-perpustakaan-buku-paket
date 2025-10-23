@@ -74,8 +74,8 @@
             </div>
             
             <!-- Pagination -->
-            <div class="d-flex justify-content-center">
-                {{ $authors->links() }}
+            <div class="mt-3">
+                {{ $authors->links('pagination.custom') }}
             </div>
         @else
             <div class="text-center py-5">

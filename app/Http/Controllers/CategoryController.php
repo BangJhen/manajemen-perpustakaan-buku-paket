@@ -12,7 +12,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::withCount('books')->paginate(10);
+        $categories = Category::withCount('books')->with(['books' => function($query) {
+            $query->latest()->take(2);
+        }])->paginate(10);
         return view('categories.index', compact('categories'));
     }
 
@@ -75,5 +77,19 @@ class CategoryController extends Controller
     {
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
+    }
+
+    /**
+     * Get books by category for API
+     */
+    public function getBooks(Category $category)
+    {
+        $books = $category->books()->select('id', 'title', 'grade_level', 'book_type', 'stock')->get();
+        
+        return response()->json([
+            'success' => true,
+            'category' => $category->name,
+            'books' => $books
+        ]);
     }
 }

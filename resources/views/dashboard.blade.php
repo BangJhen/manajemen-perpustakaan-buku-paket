@@ -109,38 +109,38 @@
         </div>
         
         @if($recentBooks->count() > 0)
-            <div class="row g-4">
+            <div class="row g-3">
                 @foreach($recentBooks as $book)
-                <div class="col-lg-6 col-xl-4">
-                    <div class="card h-100 border-0 shadow-sm">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div class="bg-primary bg-opacity-10 rounded-circle p-2">
-                                    <i class="fas fa-book text-primary"></i>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-start justify-content-between mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 rounded p-1 me-2" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-book text-primary" style="font-size: 0.75rem;"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold text-dark mb-0" style="font-size: 0.9rem; line-height: 1.2;">{{ Str::limit($book->title, 40) }}</h6>
+                                        <small class="text-muted">{{ $book->book_type }}</small>
+                                    </div>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <span class="badge bg-primary bg-opacity-10 text-primary border-0 px-2 py-1">{{ $book->subject }}</span>
-                                    <span class="badge bg-info bg-opacity-10 text-info border-0 px-2 py-1">Kelas {{ $book->grade_level }}</span>
-                                </div>
+                                @if($book->stock > 10)
+                                    <span class="badge bg-success bg-opacity-10 text-success border-0 px-2 py-1" style="font-size: 0.7rem;">Tersedia</span>
+                                @elseif($book->stock > 0)
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border-0 px-2 py-1" style="font-size: 0.7rem;">Terbatas</span>
+                                @else
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border-0 px-2 py-1" style="font-size: 0.7rem;">Habis</span>
+                                @endif
                             </div>
                             
-                            <h5 class="fw-bold text-dark mb-2">{{ $book->title }}</h5>
-                            <p class="text-muted mb-3 small">{{ $book->book_type }}</p>
-                            
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-boxes text-muted me-2"></i>
-                                    <span class="fw-semibold text-dark">{{ $book->stock }} unit</span>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <div class="d-flex gap-1">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary border-0" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;">{{ $book->subject }}</span>
+                                    <span class="badge bg-info bg-opacity-10 text-info border-0" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;">Kelas {{ $book->grade_level }}</span>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    @if($book->stock > 10)
-                                        <span class="badge bg-success bg-opacity-10 text-success border-0">Tersedia</span>
-                                    @elseif($book->stock > 0)
-                                        <span class="badge bg-warning bg-opacity-10 text-warning border-0">Terbatas</span>
-                                    @else
-                                        <span class="badge bg-danger bg-opacity-10 text-danger border-0">Habis</span>
-                                    @endif
-                                </div>
+                                <small class="text-muted">
+                                    <i class="fas fa-boxes me-1"></i>{{ $book->stock }}
+                                </small>
                             </div>
                         </div>
                     </div>
