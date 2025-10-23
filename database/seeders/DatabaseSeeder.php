@@ -21,5 +21,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Seed SMA books for SMAN 1 Dayeuhkolot
+        $this->call([
+            SMABooksSeeder::class,
+        ]);
     }
 }

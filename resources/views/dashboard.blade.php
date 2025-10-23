@@ -1,65 +1,96 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard - Sistem Manajemen Buku Paket Sekolah')
+@section('title', 'Dashboard - SMAN 1 Dayeuhkolot | Sistem Manajemen Buku Paket')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Dashboard</h1>
+<!-- Welcome Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="h2 mb-1 text-dark fw-bold">Dashboard SMAN 1 Dayeuhkolot</h1>
+                <p class="text-muted mb-0">Sistem Manajemen Buku Paket Tingkat SMA</p>
+            </div>
+            <div class="d-none d-md-block">
+                <div class="text-end">
+                    <small class="text-muted">{{ date('l, d F Y') }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Statistics Cards -->
-<div class="row mb-4">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Total Buku Paket
+<div class="row g-4 mb-5">
+    <div class="col-xl-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-book text-primary"></i>
+                            </div>
+                            <h6 class="text-muted mb-0 text-uppercase fw-semibold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Buku Paket</h6>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalBooks }}</div>
+                        <h2 class="fw-bold text-dark mb-0">{{ $totalBooks }}</h2>
+                        <small class="text-success">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            Buku tersedia
+                        </small>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-book fa-2x text-gray-300"></i>
+                    <div class="text-primary opacity-75">
+                        <i class="fas fa-book fa-2x"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                            Total Mata Pelajaran
+    <div class="col-xl-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="bg-info bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-tags text-info"></i>
+                            </div>
+                            <h6 class="text-muted mb-0 text-uppercase fw-semibold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Mata Pelajaran</h6>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $totalCategories }}</div>
+                        <h2 class="fw-bold text-dark mb-0">{{ $totalCategories }}</h2>
+                        <small class="text-info">
+                            <i class="fas fa-graduation-cap me-1"></i>
+                            Kategori aktif
+                        </small>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-tags fa-2x text-gray-300"></i>
+                    <div class="text-info opacity-75">
+                        <i class="fas fa-tags fa-2x"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Stok Total
+    <div class="col-xl-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="bg-warning bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-warehouse text-warning"></i>
+                            </div>
+                            <h6 class="text-muted mb-0 text-uppercase fw-semibold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Stok</h6>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{ $recentBooks->sum('stock') }}
-                        </div>
+                        <h2 class="fw-bold text-dark mb-0">{{ $recentBooks->sum('stock') }}</h2>
+                        <small class="text-warning">
+                            <i class="fas fa-boxes me-1"></i>
+                            Unit tersedia
+                        </small>
                     </div>
-                    <div class="col-auto">
-                        <i class="fas fa-warehouse fa-2x text-gray-300"></i>
+                    <div class="text-warning opacity-75">
+                        <i class="fas fa-warehouse fa-2x"></i>
                     </div>
                 </div>
             </div>
@@ -67,69 +98,159 @@
     </div>
 </div>
 
-<!-- Recent Books -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Buku Paket Terbaru</h6>
-    </div>
-    <div class="card-body">
+<!-- Recent Books Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-dark mb-0">Buku Paket Terbaru</h3>
+            <a href="{{ route('books.index') }}" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-eye me-2"></i>Lihat Semua
+            </a>
+        </div>
+        
         @if($recentBooks->count() > 0)
-            <div class="table-responsive">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Judul Buku Paket</th>
-                            <th>Mata Pelajaran</th>
-                            <th>Kelas</th>
-                            <th>Jenis Buku</th>
-                            <th>Stok</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($recentBooks as $book)
-                        <tr>
-                            <td>{{ $book->title }}</td>
-                            <td><span class="badge bg-primary">{{ $book->subject }}</span></td>
-                            <td><span class="badge bg-info">Kelas {{ $book->grade_level }}</span></td>
-                            <td>{{ $book->book_type }}</td>
-                            <td>{{ $book->stock }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="row g-4">
+                @foreach($recentBooks as $book)
+                <div class="col-lg-6 col-xl-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-2">
+                                    <i class="fas fa-book text-primary"></i>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary border-0 px-2 py-1">{{ $book->subject }}</span>
+                                    <span class="badge bg-info bg-opacity-10 text-info border-0 px-2 py-1">Kelas {{ $book->grade_level }}</span>
+                                </div>
+                            </div>
+                            
+                            <h5 class="fw-bold text-dark mb-2">{{ $book->title }}</h5>
+                            <p class="text-muted mb-3 small">{{ $book->book_type }}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-boxes text-muted me-2"></i>
+                                    <span class="fw-semibold text-dark">{{ $book->stock }} unit</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    @if($book->stock > 10)
+                                        <span class="badge bg-success bg-opacity-10 text-success border-0">Tersedia</span>
+                                    @elseif($book->stock > 0)
+                                        <span class="badge bg-warning bg-opacity-10 text-warning border-0">Terbatas</span>
+                                    @else
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border-0">Habis</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
             </div>
         @else
-            <div class="text-center py-4">
-                <i class="fas fa-book fa-3x text-gray-300 mb-3"></i>
-                <p class="text-gray-500">Belum ada buku yang ditambahkan.</p>
-                <a href="{{ route('books.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>Tambah Buku Pertama
-                </a>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center py-5">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <i class="fas fa-book fa-2x text-muted"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-2">Belum Ada Buku Paket SMA</h5>
+                    <p class="text-muted mb-4">Mulai dengan menambahkan buku paket SMA pertama untuk SMAN 1 Dayeuhkolot</p>
+                    <a href="{{ route('books.create') }}" class="btn btn-primary px-4">
+                        <i class="fas fa-plus me-2"></i>Tambah Buku Pertama
+                    </a>
+                </div>
             </div>
         @endif
     </div>
 </div>
 
 <!-- Quick Actions -->
-<div class="row">
-    <div class="col-lg-6 mb-4">
-        <div class="card shadow">
-            <div class="card-body text-center">
-                <i class="fas fa-plus-circle fa-3x text-primary mb-3"></i>
-                <h5>Tambah Buku Paket Baru</h5>
-                <p class="text-muted">Tambahkan buku paket kurikulum sekolah dari Kemendikbud</p>
-                <a href="{{ route('books.create') }}" class="btn btn-primary">Tambah Buku Paket</a>
+<div class="row mb-5">
+    <div class="col-12">
+        <h3 class="fw-bold text-dark mb-4">Aksi Cepat</h3>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm position-relative overflow-hidden">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-plus text-primary fa-lg"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Tambah Buku Paket SMA</h5>
+                        <p class="text-muted mb-4 small">Tambahkan buku paket kurikulum SMA dari Kemendikbud</p>
+                        <a href="{{ route('books.create') }}" class="btn btn-primary w-100">
+                            <i class="fas fa-book me-2"></i>Tambah Buku
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm position-relative overflow-hidden">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-tags text-info fa-lg"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Mata Pelajaran SMA</h5>
+                        <p class="text-muted mb-4 small">Kelola mata pelajaran SMA untuk mengorganisir buku paket</p>
+                        <a href="{{ route('categories.create') }}" class="btn btn-info w-100">
+                            <i class="fas fa-tag me-2"></i>Tambah Kategori
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm position-relative overflow-hidden">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-list text-success fa-lg"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Inventaris Buku SMA</h5>
+                        <p class="text-muted mb-4 small">Kelola inventaris buku paket SMA yang tersedia</p>
+                        <a href="{{ route('books.index') }}" class="btn btn-success w-100">
+                            <i class="fas fa-eye me-2"></i>Lihat Buku
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <div class="col-lg-6 mb-4">
-        <div class="card shadow">
-            <div class="card-body text-center">
-                <i class="fas fa-tag fa-3x text-info mb-3"></i>
-                <h5>Tambah Mata Pelajaran</h5>
-                <p class="text-muted">Buat mata pelajaran baru untuk mengorganisir buku paket</p>
-                <a href="{{ route('categories.create') }}" class="btn btn-info">Tambah Mata Pelajaran</a>
+</div>
+
+<!-- School Info Footer -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 bg-light">
+            <div class="card-body p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-school text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-0">SMAN 1 Dayeuhkolot</h6>
+                                <small class="text-muted">Sistem Manajemen Buku Paket SMA</small>
+                            </div>
+                        </div>
+                        <p class="text-muted mb-0 small">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            Jl. Sukapura No.99, Sukapura, Kec. Dayeuhkolot, Kabupaten Bandung, Jawa Barat 40267
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <div class="text-end">
+                            <small class="text-muted d-block">
+                                <i class="fas fa-calendar-alt me-1"></i>
+                                Terakhir diperbarui: {{ date('d M Y') }}
+                            </small>
+                            <small class="text-muted">
+                                <i class="fas fa-graduation-cap me-1"></i>
+                                Tingkat SMA
+                            </small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
