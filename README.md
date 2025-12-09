@@ -1,31 +1,64 @@
-# Sistem Manajemen Perpustakaan
+# 📚 Sistem Manajemen Buku Paket Sekolah
 
-Aplikasi web untuk mengelola buku, penulis, dan kategori di perpustakaan menggunakan Laravel dan MariaDB.
+Aplikasi web untuk mengelola buku paket pembelajaran kurikulum sekolah yang diterbitkan oleh **Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi (Kemendikbud)** menggunakan Laravel dan MySQL/MariaDB.
 
-## Fitur
+## ✨ Fitur
 
-- **Dashboard**: Statistik dan overview perpustakaan
-- **Manajemen Buku**: CRUD lengkap untuk data buku
-- **Manajemen Penulis**: CRUD lengkap untuk data penulis
-- **Manajemen Kategori**: CRUD lengkap untuk data kategori
+- **Dashboard**: Statistik dan overview buku paket sekolah
+- **Manajemen Buku Paket**: CRUD lengkap untuk data buku paket dengan informasi:
+  - Mata Pelajaran (Matematika, IPA, Bahasa Indonesia, dll)
+  - Tingkat Kelas (I-XII)
+  - Jenis Buku (Buku Siswa/Buku Guru)
+  - Kurikulum (Kurikulum Merdeka, K13, KTSP)
+  - Semester, Tahun Kurikulum, Penerbit
+- **Pelacakan Kondisi Buku**: 🆕
+  - Status kondisi (Baik/Rusak)
+  - Jumlah buku rusak dari total stok
+  - Catatan detail kerusakan
+  - Halaman khusus untuk buku rusak
+  - Statistik buku rusak di dashboard
+- **Manajemen Mata Pelajaran**: CRUD lengkap untuk kategori mata pelajaran
 - **UI Responsif**: Menggunakan Bootstrap 5 dengan desain modern
 - **Validasi Form**: Validasi lengkap untuk semua input
-- **Relasi Database**: Relasi yang tepat antara buku, penulis, dan kategori
+- **Fokus Kemendikbud**: Khusus untuk buku paket yang diterbitkan Kemendikbud
 
 ## Tech Stack
 
 - **Backend**: PHP 8.4 dengan Laravel 11
-- **Database**: MariaDB
+- **Database**: MySQL/MariaDB
 - **Frontend**: Bootstrap 5, Font Awesome
 - **Server**: Laravel Development Server
 
-## Instalasi
+## 🚀 Instalasi
+
+### 🪟 Instalasi di Windows
+
+**Untuk panduan lengkap instalasi di Windows dengan MySQL, lihat:** [INSTALASI_WINDOWS.md](INSTALASI_WINDOWS.md)
+
+**Quick Start di Windows:**
+
+1. **Download & Extract** project ini ke folder, misalnya: `C:\xampp\htdocs\library-management`
+
+2. **Jalankan Script Instalasi**
+   - Double-click file: `install-windows.bat`
+   - Ikuti instruksi di layar
+
+3. **Jalankan Server**
+   - Double-click file: `start-server.bat`
+   - Buka browser: `http://localhost:8000`
+
+4. **Isi Data Sample** (opsional)
+   - Double-click file: `seed-data.bat`
+
+---
+
+### 🍎 Instalasi di Mac/Linux
 
 ### Prerequisites
 
-- PHP 8.4+
+- PHP 8.1+
 - Composer
-- MariaDB
+- MySQL/MariaDB
 - Git
 
 ### Langkah Instalasi

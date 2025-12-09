@@ -113,6 +113,11 @@
                             <small class="text-muted">
                                 <i class="fas fa-boxes me-1"></i>
                                 Stok: <span class="fw-semibold text-dark">{{ $book->stock }}</span>
+                                @if($book->damaged_count > 0)
+                                    <span class="badge bg-danger ms-1" style="font-size: 0.65rem;">
+                                        <i class="fas fa-exclamation-triangle"></i> {{ $book->damaged_count }} rusak
+                                    </span>
+                                @endif
                             </small>
                             @if($book->curriculum_year)
                                 <small class="text-muted">{{ $book->curriculum_year }}</small>

@@ -136,10 +136,58 @@
                             </div>
                             <div class="col-sm-8">
                                 <span class="badge {{ $book->stock > 0 ? 'bg-success' : 'bg-danger' }} fs-6">
-                                    {{ $book->stock }} {{ $book->stock == 1 ? 'eksemplar' : 'eksemplar' }}
+                                    {{ $book->stock }} eksemplar
                                 </span>
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Kondisi:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                @if($book->condition == 'rusak')
+                                    <span class="badge bg-danger fs-6">
+                                        <i class="fas fa-exclamation-circle me-1"></i>Rusak
+                                    </span>
+                                @else
+                                    <span class="badge bg-success fs-6">
+                                        <i class="fas fa-check-circle me-1"></i>Baik
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        @if($book->damaged_count > 0)
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Buku Rusak:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <span class="badge bg-warning text-dark fs-6">
+                                    {{ $book->damaged_count }} dari {{ $book->stock }} eksemplar
+                                </span>
+                                <br>
+                                <small class="text-muted">
+                                    Stok baik: {{ $book->getAvailableStock() }} eksemplar
+                                </small>
+                            </div>
+                        </div>
+                        @endif
+
+                        @if($book->damage_notes)
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Catatan Kerusakan:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="alert alert-warning mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    {{ $book->damage_notes }}
+                                </div>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="row mb-3">
                             <div class="col-sm-4">

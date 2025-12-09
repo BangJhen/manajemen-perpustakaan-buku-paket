@@ -13,8 +13,8 @@
             </div>
             <div class="d-flex gap-2">
                 <button class="btn btn-outline-primary" id="toggleView" onclick="toggleViewMode()">
-                    <i class="fas fa-th-large me-2" id="viewIcon"></i>
-                    <span id="viewText">Grid View</span>
+                    <i class="fas fa-list me-2" id="viewIcon"></i>
+                    <span id="viewText">List View</span>
                 </button>
                 <a href="{{ route('categories.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus me-2"></i>Tambah Mata Pelajaran
@@ -105,9 +105,10 @@
     </div>
 </div>
 
-<!-- Categories Grid -->
+<!-- Categories Views -->
 @if($categories->count() > 0)
-    <div class="row g-4" id="categoriesContainer">
+    <!-- Grid View -->
+    <div class="row g-4" id="gridView">
         @foreach($categories as $category)
         <div class="col-md-6 col-lg-4 category-item" 
              data-name="{{ strtolower($category->name) }}" 
@@ -189,6 +190,84 @@
         @endforeach
     </div>
 
+    <!-- List View -->
+    <div class="d-none" id="listView">
+        @foreach($categories as $category)
+        <div class="category-item mb-3" 
+             data-name="{{ strtolower($category->name) }}" 
+             data-books="{{ $category->books_count ?? 0 }}">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <!-- Icon and Info -->
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="fas fa-{{ $category->name == 'Matematika' ? 'calculator' : ($category->name == 'Fisika' ? 'atom' : ($category->name == 'Kimia' ? 'flask' : ($category->name == 'Biologi' ? 'leaf' : ($category->name == 'Bahasa Indonesia' ? 'language' : ($category->name == 'Bahasa Inggris' ? 'globe' : ($category->name == 'Sejarah' ? 'landmark' : ($category->name == 'Geografi' ? 'map' : ($category->name == 'Ekonomi' ? 'chart-line' : ($category->name == 'Sosiologi' ? 'users' : 'book'))))))))) }} text-primary fa-lg"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold text-dark mb-1">{{ $category->name }}</h5>
+                                    <p class="text-muted mb-0" style="font-size: 0.9rem;">
+                                        {{ $category->description ? Str::limit($category->description, 100) : 'Mata pelajaran ' . $category->name . ' untuk tingkat SMA.' }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <div class="badge bg-primary bg-opacity-10 text-primary border-0 px-3 py-2 mb-2">
+                                    {{ $category->books_count ?? 0 }} buku
+                                </div>
+                                @if($category->books && $category->books->count() > 0)
+                                    <div>
+                                        <small class="text-muted">Buku terbaru:</small>
+                                        <div class="mt-1">
+                                            @foreach($category->books->take(1) as $book)
+                                                <small class="text-dark d-block">{{ Str::limit($book->title, 30) }}</small>
+                                            @endforeach
+                                            @if($category->books->count() > 1)
+                                                <small class="text-muted">+{{ $category->books->count() - 1 }} lainnya</small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @else
+                                    <small class="text-muted">Belum ada buku paket</small>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="col-md-3">
+                            <div class="d-flex gap-2 justify-content-end">
+                                <button class="btn btn-outline-primary btn-sm" 
+                                        onclick="viewCategoryBooks({{ $category->id }}, '{{ $category->name }}')"
+                                        title="Lihat Semua Buku">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <a href="{{ route('categories.edit', $category) }}" 
+                                   class="btn btn-outline-warning btn-sm" 
+                                   title="Edit Mata Pelajaran">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="{{ route('categories.destroy', $category) }}" method="POST" class="d-inline" 
+                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran {{ $category->name }}?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Hapus Mata Pelajaran">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+
     <!-- Pagination -->
     <div class="row mt-4">
         <div class="col-12">
@@ -258,7 +337,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchTerm = searchInput.value.toLowerCase();
         let visibleCount = 0;
 
-        categoryItems.forEach(item => {
+        // Get category items from both views
+        const gridItems = document.querySelectorAll('#gridView .category-item');
+        const listItems = document.querySelectorAll('#listView .category-item');
+        
+        // Filter grid view items
+        gridItems.forEach(item => {
             const name = item.dataset.name;
             const matchesSearch = name.includes(searchTerm);
 
@@ -269,9 +353,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 item.style.display = 'none';
             }
         });
+        
+        // Filter list view items
+        listItems.forEach(item => {
+            const name = item.dataset.name;
+            const matchesSearch = name.includes(searchTerm);
+
+            if (matchesSearch) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
 
         // Show/hide no results message
-        showNoResultsMessage(visibleCount === 0 && categoryItems.length > 0);
+        showNoResultsMessage(visibleCount === 0 && (gridItems.length > 0 || listItems.length > 0));
     }
 
     function showNoResultsMessage(show) {
@@ -301,10 +397,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Sort Functionality
     function sortCategories() {
         const sortBy = sortFilter.value;
-        const container = document.getElementById('categoriesContainer');
-        const items = Array.from(categoryItems);
-
-        items.sort((a, b) => {
+        const gridContainer = document.getElementById('gridView');
+        const listContainer = document.getElementById('listView');
+        
+        // Sort grid view items
+        const gridItems = Array.from(document.querySelectorAll('#gridView .category-item'));
+        gridItems.sort((a, b) => {
             if (sortBy === 'name') {
                 return a.dataset.name.localeCompare(b.dataset.name);
             } else if (sortBy === 'books_count') {
@@ -312,8 +410,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return 0;
         });
-
-        items.forEach(item => container.appendChild(item));
+        gridItems.forEach(item => gridContainer.appendChild(item));
+        
+        // Sort list view items
+        const listItems = Array.from(document.querySelectorAll('#listView .category-item'));
+        listItems.sort((a, b) => {
+            if (sortBy === 'name') {
+                return a.dataset.name.localeCompare(b.dataset.name);
+            } else if (sortBy === 'books_count') {
+                return parseInt(b.dataset.books) - parseInt(a.dataset.books);
+            }
+            return 0;
+        });
+        listItems.forEach(item => listContainer.appendChild(item));
     }
 
     // Event Listeners
@@ -477,10 +586,70 @@ function displayCategoryBooksError() {
     `;
 }
 
-// Toggle View Mode (for future enhancement)
+// Toggle View Mode Implementation
+let currentView = 'grid'; // Default view
+
 function toggleViewMode() {
-    // This can be implemented for grid/list view toggle
-    console.log('Toggle view mode');
+    const gridView = document.getElementById('gridView');
+    const listView = document.getElementById('listView');
+    const viewIcon = document.getElementById('viewIcon');
+    const viewText = document.getElementById('viewText');
+    const toggleBtn = document.getElementById('toggleView');
+
+    if (currentView === 'grid') {
+        // Switch to List View
+        gridView.classList.add('d-none');
+        listView.classList.remove('d-none');
+        
+        viewIcon.className = 'fas fa-th-large me-2';
+        viewText.textContent = 'Grid View';
+        
+        currentView = 'list';
+        
+        // Add animation
+        listView.style.opacity = '0';
+        setTimeout(() => {
+            listView.style.opacity = '1';
+            listView.style.transition = 'opacity 0.3s ease';
+        }, 50);
+        
+    } else {
+        // Switch to Grid View
+        listView.classList.add('d-none');
+        gridView.classList.remove('d-none');
+        
+        viewIcon.className = 'fas fa-list me-2';
+        viewText.textContent = 'List View';
+        
+        currentView = 'grid';
+        
+        // Add animation
+        gridView.style.opacity = '0';
+        setTimeout(() => {
+            gridView.style.opacity = '1';
+            gridView.style.transition = 'opacity 0.3s ease';
+        }, 50);
+    }
+    
+    // Save preference to localStorage
+    localStorage.setItem('categoriesViewMode', currentView);
+    
+    // Update button state
+    toggleBtn.blur(); // Remove focus after click
 }
+
+// Load saved view preference on page load
+function loadViewPreference() {
+    const savedView = localStorage.getItem('categoriesViewMode');
+    if (savedView && savedView !== currentView) {
+        toggleViewMode();
+    }
+}
+
+// Initialize view preference when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Load view preference after a short delay to ensure elements are ready
+    setTimeout(loadViewPreference, 100);
+});
 </script>
 @endsection

@@ -12,8 +12,10 @@ class HomeController extends Controller
     {
         $totalBooks = Book::count();
         $totalCategories = Category::count();
+        $damagedBooks = Book::damaged()->count();
+        $totalDamagedUnits = Book::sum('damaged_count');
         $recentBooks = Book::with(['category'])->latest()->take(5)->get();
         
-        return view('dashboard', compact('totalBooks', 'totalCategories', 'recentBooks'));
+        return view('dashboard', compact('totalBooks', 'totalCategories', 'damagedBooks', 'totalDamagedUnits', 'recentBooks'));
     }
 }

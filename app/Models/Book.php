@@ -21,6 +21,9 @@ class Book extends Model
         'pages',
         'language',
         'stock',
+        'condition',
+        'damaged_count',
+        'damage_notes',
         'category_id'
     ];
 
@@ -31,5 +34,26 @@ class Book extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // Helper methods for damage tracking
+    public function isDamaged()
+    {
+        return $this->condition === 'rusak';
+    }
+
+    public function getAvailableStock()
+    {
+        return $this->stock - $this->damaged_count;
+    }
+
+    public function scopeDamaged($query)
+    {
+        return $query->where('condition', 'rusak')->orWhere('damaged_count', '>', 0);
+    }
+
+    public function scopeGoodCondition($query)
+    {
+        return $query->where('condition', 'baik')->where('damaged_count', 0);
     }
 }

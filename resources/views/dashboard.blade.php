@@ -78,19 +78,19 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <div class="d-flex align-items-center mb-2">
-                            <div class="bg-warning bg-opacity-10 rounded-circle p-2 me-3">
-                                <i class="fas fa-warehouse text-warning"></i>
+                            <div class="bg-danger bg-opacity-10 rounded-circle p-2 me-3">
+                                <i class="fas fa-exclamation-triangle text-danger"></i>
                             </div>
-                            <h6 class="text-muted mb-0 text-uppercase fw-semibold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Stok</h6>
+                            <h6 class="text-muted mb-0 text-uppercase fw-semibold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Buku Rusak</h6>
                         </div>
-                        <h2 class="fw-bold text-dark mb-0">{{ $recentBooks->sum('stock') }}</h2>
-                        <small class="text-warning">
-                            <i class="fas fa-boxes me-1"></i>
-                            Unit tersedia
+                        <h2 class="fw-bold text-dark mb-0">{{ $damagedBooks }}</h2>
+                        <small class="text-danger">
+                            <i class="fas fa-book-dead me-1"></i>
+                            {{ $totalDamagedUnits }} unit rusak
                         </small>
                     </div>
-                    <div class="text-warning opacity-75">
-                        <i class="fas fa-warehouse fa-2x"></i>
+                    <div class="text-danger opacity-75">
+                        <i class="fas fa-exclamation-triangle fa-2x"></i>
                     </div>
                 </div>
             </div>
@@ -209,6 +209,21 @@
                         <p class="text-muted mb-4 small">Kelola inventaris buku paket SMA yang tersedia</p>
                         <a href="{{ route('books.index') }}" class="btn btn-success w-100">
                             <i class="fas fa-eye me-2"></i>Lihat Buku
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm position-relative overflow-hidden">
+                    <div class="card-body p-4 text-center">
+                        <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                            <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-2">Buku Rusak</h5>
+                        <p class="text-muted mb-4 small">Lihat dan kelola buku paket yang rusak</p>
+                        <a href="{{ route('books.damaged') }}" class="btn btn-warning w-100">
+                            <i class="fas fa-tools me-2"></i>Kelola Buku Rusak
                         </a>
                     </div>
                 </div>

@@ -1,253 +1,506 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Buku - Sistem Manajemen Perpustakaan')
+@section('title', 'Tambah Buku Paket SMA - SMAN 1 Dayeuhkolot')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Tambah Buku Baru</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ route('books.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Kembali
-        </a>
+<!-- Header Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold text-dark mb-1">Tambah Buku Paket SMA</h2>
+                <p class="text-muted mb-0">Tambahkan buku paket baru untuk SMAN 1 Dayeuhkolot</p>
+            </div>
+            <a href="{{ route('books.index') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Kembali
+            </a>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card shadow">
-            <div class="card-body">
-                <form action="{{ route('books.store') }}" method="POST">
+<!-- Main Form -->
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-5">
+                <form action="{{ route('books.store') }}" method="POST" id="bookForm">
                     @csrf
                     
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Judul Buku Paket <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" 
-                               id="title" name="title" value="{{ old('title') }}" required
-                               placeholder="Contoh: Matematika untuk SD/MI Kelas V">
-                        @error('title')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <!-- Form Icon -->
+                    <div class="text-center mb-5">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-book text-primary fa-2x"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark">Informasi Buku Paket SMA</h4>
+                        <p class="text-muted">Lengkapi data buku paket untuk SMAN 1 Dayeuhkolot</p>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="subject" class="form-label">Mata Pelajaran <span class="text-danger">*</span></label>
-                            <select class="form-select @error('subject') is-invalid @enderror" 
-                                    id="subject" name="subject" required>
-                                <option value="">Pilih Mata Pelajaran</option>
-                                <option value="Matematika" {{ old('subject') == 'Matematika' ? 'selected' : '' }}>Matematika</option>
-                                <option value="Bahasa Indonesia" {{ old('subject') == 'Bahasa Indonesia' ? 'selected' : '' }}>Bahasa Indonesia</option>
-                                <option value="IPA" {{ old('subject') == 'IPA' ? 'selected' : '' }}>IPA (Ilmu Pengetahuan Alam)</option>
-                                <option value="IPS" {{ old('subject') == 'IPS' ? 'selected' : '' }}>IPS (Ilmu Pengetahuan Sosial)</option>
-                                <option value="PPKn" {{ old('subject') == 'PPKn' ? 'selected' : '' }}>PPKn (Pendidikan Pancasila dan Kewarganegaraan)</option>
-                                <option value="Bahasa Inggris" {{ old('subject') == 'Bahasa Inggris' ? 'selected' : '' }}>Bahasa Inggris</option>
-                                <option value="Seni Budaya" {{ old('subject') == 'Seni Budaya' ? 'selected' : '' }}>Seni Budaya</option>
-                                <option value="PJOK" {{ old('subject') == 'PJOK' ? 'selected' : '' }}>PJOK (Pendidikan Jasmani, Olahraga, dan Kesehatan)</option>
-                                <option value="Agama" {{ old('subject') == 'Agama' ? 'selected' : '' }}>Pendidikan Agama</option>
-                            </select>
-                            @error('subject')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                    <!-- Step 1: Basic Information -->
+                    <div class="step-section mb-5" id="step1">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; font-size: 0.875rem;">1</div>
+                            <h5 class="fw-bold text-dark mb-0">Informasi Dasar</h5>
                         </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label for="grade_level" class="form-label">Kelas <span class="text-danger">*</span></label>
-                            <select class="form-select @error('grade_level') is-invalid @enderror" 
-                                    id="grade_level" name="grade_level" required>
-                                <option value="">Pilih Kelas</option>
-                                <option value="I" {{ old('grade_level') == 'I' ? 'selected' : '' }}>Kelas I</option>
-                                <option value="II" {{ old('grade_level') == 'II' ? 'selected' : '' }}>Kelas II</option>
-                                <option value="III" {{ old('grade_level') == 'III' ? 'selected' : '' }}>Kelas III</option>
-                                <option value="IV" {{ old('grade_level') == 'IV' ? 'selected' : '' }}>Kelas IV</option>
-                                <option value="V" {{ old('grade_level') == 'V' ? 'selected' : '' }}>Kelas V</option>
-                                <option value="VI" {{ old('grade_level') == 'VI' ? 'selected' : '' }}>Kelas VI</option>
-                                <option value="VII" {{ old('grade_level') == 'VII' ? 'selected' : '' }}>Kelas VII</option>
-                                <option value="VIII" {{ old('grade_level') == 'VIII' ? 'selected' : '' }}>Kelas VIII</option>
-                                <option value="IX" {{ old('grade_level') == 'IX' ? 'selected' : '' }}>Kelas IX</option>
-                                <option value="X" {{ old('grade_level') == 'X' ? 'selected' : '' }}>Kelas X</option>
-                                <option value="XI" {{ old('grade_level') == 'XI' ? 'selected' : '' }}>Kelas XI</option>
-                                <option value="XII" {{ old('grade_level') == 'XII' ? 'selected' : '' }}>Kelas XII</option>
-                            </select>
-                            @error('grade_level')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="semester" class="form-label">Semester</label>
-                            <select class="form-select @error('semester') is-invalid @enderror" 
-                                    id="semester" name="semester">
-                                <option value="">Pilih Semester</option>
-                                <option value="1" {{ old('semester') == '1' ? 'selected' : '' }}>Semester 1</option>
-                                <option value="2" {{ old('semester') == '2' ? 'selected' : '' }}>Semester 2</option>
-                            </select>
-                            @error('semester')
+                        <!-- Book Title -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-semibold text-dark mb-2">
+                                Judul Buku Paket <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg border-0 bg-light @error('title') is-invalid @enderror" 
+                                   id="title" 
+                                   name="title" 
+                                   value="{{ old('title') }}" 
+                                   required
+                                   placeholder="Contoh: Matematika untuk SMA/MA Kelas X"
+                                   style="padding: 1rem 1.25rem;">
+                            @error('title')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="col-md-4 mb-3">
-                            <label for="book_type" class="form-label">Jenis Buku <span class="text-danger">*</span></label>
-                            <select class="form-select @error('book_type') is-invalid @enderror" 
-                                    id="book_type" name="book_type" required>
-                                <option value="Buku Siswa" {{ old('book_type', 'Buku Siswa') == 'Buku Siswa' ? 'selected' : '' }}>Buku Siswa</option>
-                                <option value="Buku Guru" {{ old('book_type') == 'Buku Guru' ? 'selected' : '' }}>Buku Guru</option>
-                            </select>
-                            @error('book_type')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="curriculum_year" class="form-label">Tahun Kurikulum</label>
-                            <input type="number" class="form-control @error('curriculum_year') is-invalid @enderror" 
-                                   id="curriculum_year" name="curriculum_year" value="{{ old('curriculum_year', date('Y')) }}" 
-                                   min="2000" max="2030">
-                            @error('curriculum_year')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <!-- Subject and Grade -->
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="category_id" class="form-label fw-semibold text-dark mb-2">
+                                    Mata Pelajaran <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select form-select-lg border-0 bg-light @error('category_id') is-invalid @enderror" 
+                                        id="category_id" name="category_id" required style="padding: 1rem 1.25rem;">
+                                    <option value="">Pilih Mata Pelajaran</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('category_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="grade_level" class="form-label fw-semibold text-dark mb-2">
+                                    Kelas <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select form-select-lg border-0 bg-light @error('grade_level') is-invalid @enderror" 
+                                        id="grade_level" name="grade_level" required style="padding: 1rem 1.25rem;">
+                                    <option value="">Pilih Kelas</option>
+                                    <option value="10" {{ old('grade_level') == '10' ? 'selected' : '' }}>Kelas X (10)</option>
+                                    <option value="11" {{ old('grade_level') == '11' ? 'selected' : '' }}>Kelas XI (11)</option>
+                                    <option value="12" {{ old('grade_level') == '12' ? 'selected' : '' }}>Kelas XII (12)</option>
+                                </select>
+                                @error('grade_level')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="curriculum_type" class="form-label">Jenis Kurikulum <span class="text-danger">*</span></label>
-                            <select class="form-select @error('curriculum_type') is-invalid @enderror" 
-                                    id="curriculum_type" name="curriculum_type" required>
-                                <option value="Kurikulum Merdeka" {{ old('curriculum_type', 'Kurikulum Merdeka') == 'Kurikulum Merdeka' ? 'selected' : '' }}>Kurikulum Merdeka</option>
-                                <option value="Kurikulum 2013" {{ old('curriculum_type') == 'Kurikulum 2013' ? 'selected' : '' }}>Kurikulum 2013</option>
-                                <option value="KTSP" {{ old('curriculum_type') == 'KTSP' ? 'selected' : '' }}>KTSP</option>
-                            </select>
-                            @error('curriculum_type')
+                    <!-- Step 2: Book Details -->
+                    <div class="step-section mb-5" id="step2">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; font-size: 0.875rem;">2</div>
+                            <h5 class="fw-bold text-dark mb-0">Detail Buku</h5>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <label for="book_type" class="form-label fw-semibold text-dark mb-2">
+                                    Jenis Buku <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select border-0 bg-light @error('book_type') is-invalid @enderror" 
+                                        id="book_type" name="book_type" required style="padding: 0.75rem 1rem;">
+                                    <option value="Buku Siswa" {{ old('book_type', 'Buku Siswa') == 'Buku Siswa' ? 'selected' : '' }}>Buku Siswa</option>
+                                    <option value="Buku Guru" {{ old('book_type') == 'Buku Guru' ? 'selected' : '' }}>Buku Guru</option>
+                                </select>
+                                @error('book_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="curriculum_type" class="form-label fw-semibold text-dark mb-2">
+                                    Kurikulum <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select border-0 bg-light @error('curriculum_type') is-invalid @enderror" 
+                                        id="curriculum_type" name="curriculum_type" required style="padding: 0.75rem 1rem;">
+                                    <option value="Kurikulum Merdeka" {{ old('curriculum_type', 'Kurikulum Merdeka') == 'Kurikulum Merdeka' ? 'selected' : '' }}>Kurikulum Merdeka</option>
+                                    <option value="Kurikulum 2013" {{ old('curriculum_type') == 'Kurikulum 2013' ? 'selected' : '' }}>Kurikulum 2013</option>
+                                </select>
+                                @error('curriculum_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="semester" class="form-label fw-semibold text-dark mb-2">Semester</label>
+                                <select class="form-select border-0 bg-light @error('semester') is-invalid @enderror" 
+                                        id="semester" name="semester" style="padding: 0.75rem 1rem;">
+                                    <option value="">Pilih Semester</option>
+                                    <option value="1" {{ old('semester') == '1' ? 'selected' : '' }}>Semester 1</option>
+                                    <option value="2" {{ old('semester') == '2' ? 'selected' : '' }}>Semester 2</option>
+                                </select>
+                                @error('semester')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-6">
+                                <label for="publisher" class="form-label fw-semibold text-dark mb-2">
+                                    Penerbit <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control border-0 bg-light @error('publisher') is-invalid @enderror" 
+                                       id="publisher" 
+                                       name="publisher" 
+                                       value="{{ old('publisher', 'Kemendikbud') }}" 
+                                       required
+                                       style="padding: 0.75rem 1rem;">
+                                @error('publisher')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="stock" class="form-label fw-semibold text-dark mb-2">
+                                    Jumlah Stok <span class="text-danger">*</span>
+                                </label>
+                                <input type="number" 
+                                       class="form-control border-0 bg-light @error('stock') is-invalid @enderror" 
+                                       id="stock" 
+                                       name="stock" 
+                                       value="{{ old('stock', 1) }}" 
+                                       min="0" 
+                                       required
+                                       style="padding: 0.75rem 1rem;">
+                                @error('stock')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Damage Tracking Section -->
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-4">
+                                <label for="condition" class="form-label fw-semibold text-dark mb-2">
+                                    Kondisi Buku <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select border-0 bg-light @error('condition') is-invalid @enderror" 
+                                        id="condition" 
+                                        name="condition" 
+                                        required
+                                        style="padding: 0.75rem 1rem;">
+                                    <option value="baik" {{ old('condition', 'baik') == 'baik' ? 'selected' : '' }}>Baik</option>
+                                    <option value="rusak" {{ old('condition') == 'rusak' ? 'selected' : '' }}>Rusak</option>
+                                </select>
+                                @error('condition')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="damaged_count" class="form-label fw-semibold text-dark mb-2">
+                                    Jumlah Buku Rusak
+                                </label>
+                                <input type="number" 
+                                       class="form-control border-0 bg-light @error('damaged_count') is-invalid @enderror" 
+                                       id="damaged_count" 
+                                       name="damaged_count" 
+                                       value="{{ old('damaged_count', 0) }}" 
+                                       min="0"
+                                       style="padding: 0.75rem 1rem;">
+                                <small class="text-muted">Jumlah buku yang rusak dari total stok</small>
+                                @error('damaged_count')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="damage_notes" class="form-label fw-semibold text-dark mb-2">
+                                    Catatan Kerusakan
+                                </label>
+                                <textarea class="form-control border-0 bg-light @error('damage_notes') is-invalid @enderror" 
+                                          id="damage_notes" 
+                                          name="damage_notes" 
+                                          rows="3" 
+                                          style="padding: 0.75rem 1rem;"
+                                          placeholder="Jelaskan kondisi kerusakan buku (halaman robek, cover rusak, dll)">{{ old('damage_notes') }}</textarea>
+                                @error('damage_notes')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Additional Information (Optional) -->
+                    <div class="step-section mb-5" id="step3">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px; font-size: 0.875rem;">3</div>
+                            <h5 class="fw-bold text-dark mb-0">Informasi Tambahan <small class="text-muted">(Opsional)</small></h5>
+                        </div>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <label for="isbn" class="form-label fw-semibold text-dark mb-2">ISBN</label>
+                                <input type="text" 
+                                       class="form-control border-0 bg-light @error('isbn') is-invalid @enderror" 
+                                       id="isbn" 
+                                       name="isbn" 
+                                       value="{{ old('isbn') }}"
+                                       placeholder="978-602-427-xxx-x"
+                                       style="padding: 0.75rem 1rem;">
+                                @error('isbn')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="pages" class="form-label fw-semibold text-dark mb-2">Jumlah Halaman</label>
+                                <input type="number" 
+                                       class="form-control border-0 bg-light @error('pages') is-invalid @enderror" 
+                                       id="pages" 
+                                       name="pages" 
+                                       value="{{ old('pages') }}" 
+                                       min="1"
+                                       style="padding: 0.75rem 1rem;">
+                                @error('pages')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="description" class="form-label fw-semibold text-dark mb-2">Deskripsi Buku</label>
+                            <textarea class="form-control border-0 bg-light @error('description') is-invalid @enderror" 
+                                      id="description" 
+                                      name="description" 
+                                      rows="4" 
+                                      style="padding: 1rem 1.25rem;"
+                                      placeholder="Jelaskan tentang isi dan kegunaan buku paket ini...">{{ old('description') }}</textarea>
+                            @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label for="publisher" class="form-label">Penerbit <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('publisher') is-invalid @enderror" 
-                                   id="publisher" name="publisher" value="{{ old('publisher', 'Kemendikbud') }}" required>
-                            @error('publisher')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="isbn" class="form-label">ISBN</label>
-                        <input type="text" class="form-control @error('isbn') is-invalid @enderror" 
-                               id="isbn" name="isbn" value="{{ old('isbn') }}"
-                               placeholder="Contoh: 978-602-427-xxx-x">
-                        @error('isbn')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    <!-- Hidden Fields with Default Values -->
+                    <input type="hidden" name="subject" id="hidden_subject" value="{{ old('subject') }}">
+                    <input type="hidden" name="curriculum_year" value="{{ date('Y') }}">
+                    <input type="hidden" name="language" value="Indonesian">
 
-                    <div class="mb-3">
-                        <label for="category_id" class="form-label">Mata Pelajaran <span class="text-danger">*</span></label>
-                        <select class="form-select @error('category_id') is-invalid @enderror" 
-                                id="category_id" name="category_id" required>
-                            <option value="">Pilih Mata Pelajaran</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('category_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Deskripsi</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" 
-                                  id="description" name="description" rows="4">{{ old('description') }}</textarea>
-                        @error('description')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="published_date" class="form-label">Tanggal Terbit</label>
-                            <input type="date" class="form-control @error('published_date') is-invalid @enderror" 
-                                   id="published_date" name="published_date" value="{{ old('published_date') }}">
-                            @error('published_date')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            <label for="pages" class="form-label">Jumlah Halaman</label>
-                            <input type="number" class="form-control @error('pages') is-invalid @enderror" 
-                                   id="pages" name="pages" value="{{ old('pages') }}" min="1">
-                            @error('pages')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            <label for="stock" class="form-label">Stok <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control @error('stock') is-invalid @enderror" 
-                                   id="stock" name="stock" value="{{ old('stock', 1) }}" min="0" required>
-                            @error('stock')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="language" class="form-label">Bahasa <span class="text-danger">*</span></label>
-                        <select class="form-select @error('language') is-invalid @enderror" 
-                                id="language" name="language" required>
-                            <option value="Indonesian" {{ old('language', 'Indonesian') == 'Indonesian' ? 'selected' : '' }}>
-                                Bahasa Indonesia
-                            </option>
-                            <option value="English" {{ old('language') == 'English' ? 'selected' : '' }}>
-                                English
-                            </option>
-                            <option value="Other" {{ old('language') == 'Other' ? 'selected' : '' }}>
-                                Lainnya
-                            </option>
-                        </select>
-                        @error('language')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="{{ route('books.index') }}" class="btn btn-secondary me-md-2">Batal</a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-2"></i>Simpan Buku
+                    <!-- Action Buttons -->
+                    <div class="d-flex gap-3 justify-content-end pt-4 border-top">
+                        <a href="{{ route('books.index') }}" class="btn btn-light px-4 py-2">
+                            <i class="fas fa-times me-2"></i>Batal
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4 py-2">
+                            <i class="fas fa-plus me-2"></i>Tambah Buku Paket
                         </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    
-    <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-header">
-                <h6 class="m-0">Informasi</h6>
-            </div>
-            <div class="card-body">
-                <p class="text-muted small">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Pastikan semua informasi buku sudah benar sebelum menyimpan.
-                </p>
-                <hr>
-                <p class="text-muted small">
-                    <strong>Tips:</strong>
-                    <br>• ISBN tidak wajib diisi
-                    <br>• Stok minimal adalah 0
-                    <br>• Deskripsi membantu identifikasi buku
-                </p>
-            </div>
-        </div>
-    </div>
 </div>
+<!-- JavaScript for Enhanced Functionality -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('bookForm');
+    const categorySelect = document.getElementById('category_id');
+    const gradeSelect = document.getElementById('grade_level');
+    const titleInput = document.getElementById('title');
+    const hiddenSubject = document.getElementById('hidden_subject');
+
+    // Auto-generate title based on selections
+    function updateTitle() {
+        const categoryText = categorySelect.options[categorySelect.selectedIndex]?.text || '';
+        const gradeText = gradeSelect.options[gradeSelect.selectedIndex]?.text || '';
+        
+        if (categoryText && gradeText && !titleInput.value.trim()) {
+            const romanGrade = gradeSelect.value === '10' ? 'X' : 
+                             gradeSelect.value === '11' ? 'XI' : 
+                             gradeSelect.value === '12' ? 'XII' : gradeSelect.value;
+            
+            titleInput.value = `${categoryText} untuk SMA/MA Kelas ${romanGrade}`;
+        }
+        
+        // Update hidden subject field
+        if (categoryText) {
+            hiddenSubject.value = categoryText;
+        }
+    }
+
+    // Event listeners for auto-generation
+    categorySelect.addEventListener('change', updateTitle);
+    gradeSelect.addEventListener('change', updateTitle);
+
+    // Form validation and enhancement
+    form.addEventListener('submit', function(e) {
+        const requiredFields = ['title', 'category_id', 'grade_level', 'book_type', 'curriculum_type', 'publisher', 'stock'];
+        let isValid = true;
+        
+        requiredFields.forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid');
+                field.focus();
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            e.preventDefault();
+            showAlert('Mohon lengkapi semua field yang wajib diisi!', 'warning');
+            return;
+        }
+        
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan...';
+        submitBtn.disabled = true;
+        
+        // Re-enable button after 5 seconds (in case of error)
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 5000);
+    });
+
+    // Input enhancements
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('focused');
+            if (this.value.trim()) {
+                this.classList.add('filled');
+            } else {
+                this.classList.remove('filled');
+            }
+        });
+    });
+
+    // Step navigation (visual enhancement)
+    const steps = document.querySelectorAll('.step-section');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const stepNumber = entry.target.id.replace('step', '');
+                updateStepIndicator(stepNumber);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    steps.forEach(step => observer.observe(step));
+
+    function updateStepIndicator(activeStep) {
+        steps.forEach((step, index) => {
+            const stepNum = index + 1;
+            const indicator = step.querySelector('.rounded-circle');
+            
+            if (stepNum <= activeStep) {
+                indicator.classList.remove('bg-secondary');
+                indicator.classList.add('bg-primary');
+            } else {
+                indicator.classList.remove('bg-primary');
+                indicator.classList.add('bg-secondary');
+            }
+        });
+    }
+
+    // Add smooth animations and styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .form-control:focus, .form-select:focus {
+            border-color: transparent !important;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+            background-color: #fff !important;
+        }
+        
+        .step-section {
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            padding-left: 1rem;
+        }
+        
+        .step-section:hover {
+            border-left-color: #667eea;
+            background-color: rgba(102, 126, 234, 0.02);
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .form-control.filled, .form-select.filled {
+            background-color: #fff !important;
+        }
+        
+        .focused {
+            transform: scale(1.01);
+            transition: transform 0.2s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .step-section {
+                padding-left: 0.5rem;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Auto-focus first input
+    setTimeout(() => {
+        titleInput.focus();
+    }, 300);
+});
+
+// Alert function
+function showAlert(message, type = 'info') {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(alertDiv);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        if (alertDiv.parentNode) {
+            alertDiv.remove();
+        }
+    }, 4000);
+}
+
+// Smart ISBN formatting
+document.getElementById('isbn').addEventListener('input', function(e) {
+    let value = e.target.value.replace(/[^\d]/g, '');
+    if (value.length >= 3) {
+        value = value.substring(0, 3) + '-' + value.substring(3);
+    }
+    if (value.length >= 7) {
+        value = value.substring(0, 7) + '-' + value.substring(7);
+    }
+    if (value.length >= 11) {
+        value = value.substring(0, 11) + '-' + value.substring(11);
+    }
+    if (value.length >= 13) {
+        value = value.substring(0, 13) + '-' + value.substring(13, 14);
+    }
+    e.target.value = value;
+});
+</script>
 @endsection

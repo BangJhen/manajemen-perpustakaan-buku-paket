@@ -46,6 +46,9 @@ class BookController extends Controller
             'pages' => 'nullable|integer|min:1',
             'language' => 'required|string',
             'stock' => 'required|integer|min:0',
+            'condition' => 'required|in:baik,rusak',
+            'damaged_count' => 'nullable|integer|min:0|lte:stock',
+            'damage_notes' => 'nullable|string',
             'category_id' => 'required|exists:categories,id'
         ]);
 
@@ -90,6 +93,9 @@ class BookController extends Controller
             'pages' => 'nullable|integer|min:1',
             'language' => 'required|string',
             'stock' => 'required|integer|min:0',
+            'condition' => 'required|in:baik,rusak',
+            'damaged_count' => 'nullable|integer|min:0|lte:stock',
+            'damage_notes' => 'nullable|string',
             'category_id' => 'required|exists:categories,id'
         ]);
 
@@ -104,5 +110,14 @@ class BookController extends Controller
     {
         $book->delete();
         return redirect()->route('books.index')->with('success', 'Buku berhasil dihapus!');
+    }
+
+    /**
+     * Display a listing of damaged books.
+     */
+    public function damaged()
+    {
+        $books = Book::damaged()->with(['category'])->paginate(10);
+        return view('books.damaged', compact('books'));
     }
 }

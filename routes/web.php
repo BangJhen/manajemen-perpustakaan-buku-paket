@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::resource('books', BookController::class);
+Route::get('/books-damaged', [BookController::class, 'damaged'])->name('books.damaged');
 Route::resource('categories', CategoryController::class);
 
 // API Routes for AJAX calls

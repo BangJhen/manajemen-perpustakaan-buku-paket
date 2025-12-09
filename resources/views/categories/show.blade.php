@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $category->name . ' - Sistem Manajemen Perpustakaan')
+@section('title', $category->name . ' - Sistem Manajemen Buku Paket Sekolah')
 
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -22,7 +22,7 @@
         <div class="card shadow">
             <div class="card-body">
                 <div class="text-center mb-3">
-                    <i class="fas fa-tag fa-4x text-primary mb-3"></i>
+                    <i class="fas fa-book-open fa-4x text-primary mb-3"></i>
                     <h4>{{ $category->name }}</h4>
                 </div>
                 
@@ -34,7 +34,7 @@
                 
                 <div class="text-center">
                     <h5 class="text-primary">{{ $category->books->count() }}</h5>
-                    <p class="text-muted small">Total Buku</p>
+                    <p class="text-muted small">Total Buku Paket</p>
                 </div>
             </div>
         </div>
@@ -51,9 +51,10 @@
                         <table class="table table-hover">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Judul</th>
-                                    <th>Penulis</th>
-                                    <th>Tahun</th>
+                                    <th>Judul Buku Paket</th>
+                                    <th>Kelas</th>
+                                    <th>Jenis Buku</th>
+                                    <th>Kurikulum</th>
                                     <th>Stok</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -62,8 +63,9 @@
                                 @foreach($category->books as $book)
                                 <tr>
                                     <td>{{ $book->title }}</td>
-                                    <td>{{ $book->author->name }}</td>
-                                    <td>{{ $book->published_date ? $book->published_date->format('Y') : '-' }}</td>
+                                    <td><span class="badge bg-info">Kelas {{ $book->grade_level }}</span></td>
+                                    <td>{{ $book->book_type }}</td>
+                                    <td>{{ $book->curriculum_type }}</td>
                                     <td>
                                         <span class="badge {{ $book->stock > 0 ? 'bg-success' : 'bg-danger' }}">
                                             {{ $book->stock }}

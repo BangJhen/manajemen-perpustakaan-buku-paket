@@ -53,6 +53,9 @@ class SchoolPackageNoAuthorSeeder extends Seeder
                 'pages' => 180,
                 'language' => 'Indonesian',
                 'stock' => 25,
+                'condition' => 'baik',
+                'damaged_count' => 0,
+                'damage_notes' => null,
                 'category_id' => 1
             ],
             [
@@ -70,6 +73,9 @@ class SchoolPackageNoAuthorSeeder extends Seeder
                 'pages' => 220,
                 'language' => 'Indonesian',
                 'stock' => 5,
+                'condition' => 'baik',
+                'damaged_count' => 1,
+                'damage_notes' => 'Cover buku sedikit robek',
                 'category_id' => 1
             ],
             [
@@ -87,6 +93,9 @@ class SchoolPackageNoAuthorSeeder extends Seeder
                 'pages' => 160,
                 'language' => 'Indonesian',
                 'stock' => 30,
+                'condition' => 'rusak',
+                'damaged_count' => 5,
+                'damage_notes' => 'Beberapa halaman hilang dan cover rusak parah',
                 'category_id' => 2
             ],
             [
@@ -104,6 +113,9 @@ class SchoolPackageNoAuthorSeeder extends Seeder
                 'pages' => 200,
                 'language' => 'Indonesian',
                 'stock' => 20,
+                'condition' => 'baik',
+                'damaged_count' => 0,
+                'damage_notes' => null,
                 'category_id' => 3
             ],
             [
@@ -121,6 +133,9 @@ class SchoolPackageNoAuthorSeeder extends Seeder
                 'pages' => 150,
                 'language' => 'Indonesian',
                 'stock' => 35,
+                'condition' => 'baik',
+                'damaged_count' => 2,
+                'damage_notes' => 'Halaman terakhir robek',
                 'category_id' => 5
             ],
             [
@@ -138,6 +153,9 @@ class SchoolPackageNoAuthorSeeder extends Seeder
                 'pages' => 170,
                 'language' => 'Indonesian',
                 'stock' => 28,
+                'condition' => 'baik',
+                'damaged_count' => 0,
+                'damage_notes' => null,
                 'category_id' => 6
             ],
         ];

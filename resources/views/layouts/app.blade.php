@@ -62,9 +62,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('books.*') ? 'active' : '' }}" href="{{ route('books.index') }}">
+                            <a class="nav-link {{ request()->routeIs('books.index') || request()->routeIs('books.create') || request()->routeIs('books.edit') || request()->routeIs('books.show') ? 'active' : '' }}" href="{{ route('books.index') }}">
                                 <i class="fas fa-book me-2"></i>
                                 Kelola Buku Paket
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('books.damaged') ? 'active' : '' }}" href="{{ route('books.damaged') }}">
+                                <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+                                Buku Rusak
                             </a>
                         </li>
                         <li class="nav-item">
