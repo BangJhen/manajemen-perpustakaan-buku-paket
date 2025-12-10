@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookDamageController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
@@ -20,6 +21,10 @@ Route::put('/books/{book}/damages/{damage}', [BookDamageController::class, 'upda
 Route::delete('/books/{book}/damages/{damage}', [BookDamageController::class, 'destroy'])->name('books.damages.destroy');
 
 Route::resource('categories', CategoryController::class);
+
+// Report Routes
+Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/print', [ReportController::class, 'print'])->name('reports.print');
 
 // API Routes for AJAX calls
 Route::get('/api/categories/{category}/books', [CategoryController::class, 'getBooks'])->name('api.categories.books');

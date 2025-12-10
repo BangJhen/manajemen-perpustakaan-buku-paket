@@ -6,9 +6,9 @@
     <title>@yield('title', 'Sistem Manajemen Buku Paket Sekolah')</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/cropped-cropped-smanday.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/cropped-cropped-smanday.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ asset('images/cropped-cropped-smanday.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/cropped-cropped-smanday.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/cropped-cropped-smanday.png') }}">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -83,6 +83,12 @@
                             <a class="nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}" href="{{ route('categories.index') }}">
                                 <i class="fas fa-tags me-2"></i>
                                 Kelola Mata Pelajaran
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}" href="{{ route('reports.index') }}">
+                                <i class="fas fa-file-alt me-2"></i>
+                                Laporan Buku
                             </a>
                         </li>
                     </ul>
