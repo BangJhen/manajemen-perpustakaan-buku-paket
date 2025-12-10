@@ -11,9 +11,40 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::with(['category'])->paginate(10);
+        $query = Book::with(['category']);
+
+        // Filter by date range
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Filter by grade
+        if ($request->filled('grade')) {
+            $query->where('grade_level', $request->grade);
+        }
+
+        // Filter by subject
+        if ($request->filled('subject')) {
+            $query->where('subject', $request->subject);
+        }
+
+        // Search by title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Sort by date
+        $sortOrder = $request->get('sort', 'desc'); // default descending (terbaru)
+        $query->orderBy('created_at', $sortOrder);
+
+        $books = $query->paginate(10)->withQueryString();
+        
         return view('books.index', compact('books'));
     }
 

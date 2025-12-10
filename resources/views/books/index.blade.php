@@ -19,45 +19,112 @@
 </div>
 
 <!-- Search and Filter Section -->
-<div class="row mb-4">
+<div class="row mb-3">
     <div class="col-12">
         <div class="card border-0 shadow-sm">
             <div class="card-body p-3">
-                <div class="row g-3 align-items-center">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                            <span class="input-group-text border-0 bg-light">
-                                <i class="fas fa-search text-muted"></i>
-                            </span>
-                            <input type="text" class="form-control border-0 bg-light" placeholder="Cari judul buku atau mata pelajaran..." id="searchInput">
+                <form action="{{ route('books.index') }}" method="GET" id="filterForm">
+                    <div class="row g-2 align-items-end">
+                        <!-- Search -->
+                        <div class="col-md-3">
+                            <input type="text" 
+                                   class="form-control form-control-sm border-0 bg-light" 
+                                   name="search" 
+                                   value="{{ request('search') }}"
+                                   placeholder="🔍 Cari judul buku...">
+                        </div>
+                        <!-- Grade -->
+                        <div class="col-md-2">
+                            <select class="form-select form-select-sm border-0 bg-light" name="grade">
+                                <option value="">Semua Kelas</option>
+                                <option value="10" {{ request('grade') == '10' ? 'selected' : '' }}>Kelas 10</option>
+                                <option value="11" {{ request('grade') == '11' ? 'selected' : '' }}>Kelas 11</option>
+                                <option value="12" {{ request('grade') == '12' ? 'selected' : '' }}>Kelas 12</option>
+                            </select>
+                        </div>
+                        <!-- Subject -->
+                        <div class="col-md-2">
+                            <select class="form-select form-select-sm border-0 bg-light" name="subject">
+                                <option value="">Semua Mapel</option>
+                                <option value="Matematika" {{ request('subject') == 'Matematika' ? 'selected' : '' }}>Matematika</option>
+                                <option value="Fisika" {{ request('subject') == 'Fisika' ? 'selected' : '' }}>Fisika</option>
+                                <option value="Kimia" {{ request('subject') == 'Kimia' ? 'selected' : '' }}>Kimia</option>
+                                <option value="Biologi" {{ request('subject') == 'Biologi' ? 'selected' : '' }}>Biologi</option>
+                                <option value="Bahasa Indonesia" {{ request('subject') == 'Bahasa Indonesia' ? 'selected' : '' }}>B. Indonesia</option>
+                                <option value="Bahasa Inggris" {{ request('subject') == 'Bahasa Inggris' ? 'selected' : '' }}>B. Inggris</option>
+                            </select>
+                        </div>
+                        <!-- Date From -->
+                        <div class="col-md-2">
+                            <input type="date" 
+                                   class="form-control form-control-sm border-0 bg-light" 
+                                   name="date_from" 
+                                   value="{{ request('date_from') }}"
+                                   placeholder="Dari">
+                        </div>
+                        <!-- Date To -->
+                        <div class="col-md-2">
+                            <input type="date" 
+                                   class="form-control form-control-sm border-0 bg-light" 
+                                   name="date_to" 
+                                   value="{{ request('date_to') }}"
+                                   placeholder="Sampai">
+                        </div>
+                        <!-- Sort -->
+                        <div class="col-md-1">
+                            <select class="form-select form-select-sm border-0 bg-light" name="sort" title="Urutkan">
+                                <option value="desc" {{ request('sort', 'desc') == 'desc' ? 'selected' : '' }}>↓</option>
+                                <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>↑</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-select border-0 bg-light" id="gradeFilter">
-                            <option value="">Semua Kelas</option>
-                            <option value="10">Kelas 10</option>
-                            <option value="11">Kelas 11</option>
-                            <option value="12">Kelas 12</option>
-                        </select>
+
+                    <!-- Action Buttons -->
+                    <div class="row g-2 mt-2">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fas fa-filter me-1"></i>Filter
+                            </button>
+                        </div>
+                        @if(request()->hasAny(['search', 'grade', 'subject', 'date_from', 'date_to', 'sort']))
+                        <div class="col-auto">
+                            <a href="{{ route('books.index') }}" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-times me-1"></i>Reset
+                            </a>
+                        </div>
+                        @endif
+                        <div class="col text-end">
+                            <small class="text-muted">
+                                <i class="fas fa-book me-1"></i>
+                                <span class="fw-semibold">{{ $books->total() }}</span> buku
+                            </small>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select border-0 bg-light" id="subjectFilter">
-                            <option value="">Semua Mata Pelajaran</option>
-                            <option value="Matematika">Matematika</option>
-                            <option value="Fisika">Fisika</option>
-                            <option value="Kimia">Kimia</option>
-                            <option value="Biologi">Biologi</option>
-                            <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 text-end">
+
+                    <!-- Filter Info (Compact) -->
+                    @if(request()->hasAny(['search', 'grade', 'subject', 'date_from', 'date_to']))
+                    <div class="mt-2">
                         <small class="text-muted">
-                            <i class="fas fa-book me-1"></i>
-                            Total: <span class="fw-semibold">{{ $books->total() }}</span> buku
+                            <i class="fas fa-filter me-1"></i>
+                            @if(request('search'))
+                                <span class="badge bg-primary bg-opacity-10 text-primary border-0 me-1" style="font-size: 0.7rem;">"{{ request('search') }}"</span>
+                            @endif
+                            @if(request('grade'))
+                                <span class="badge bg-info bg-opacity-10 text-info border-0 me-1" style="font-size: 0.7rem;">Kelas {{ request('grade') }}</span>
+                            @endif
+                            @if(request('subject'))
+                                <span class="badge bg-success bg-opacity-10 text-success border-0 me-1" style="font-size: 0.7rem;">{{ request('subject') }}</span>
+                            @endif
+                            @if(request('date_from'))
+                                <span class="badge bg-warning bg-opacity-10 text-warning border-0 me-1" style="font-size: 0.7rem;">{{ \Carbon\Carbon::parse(request('date_from'))->format('d/m/Y') }}</span>
+                            @endif
+                            @if(request('date_to'))
+                                <span class="badge bg-warning bg-opacity-10 text-warning border-0 me-1" style="font-size: 0.7rem;">- {{ \Carbon\Carbon::parse(request('date_to'))->format('d/m/Y') }}</span>
+                            @endif
                         </small>
                     </div>
-                </div>
+                    @endif
+                </form>
             </div>
         </div>
     </div>
@@ -67,10 +134,7 @@
 @if($books->count() > 0)
     <div class="row g-3" id="booksContainer">
         @foreach($books as $book)
-        <div class="col-md-6 col-lg-4 book-item" 
-             data-title="{{ strtolower($book->title) }}" 
-             data-subject="{{ strtolower($book->subject) }}" 
-             data-grade="{{ $book->grade_level }}">
+        <div class="col-md-6 col-lg-4 book-item">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body p-3">
                     <!-- Header with Status -->
@@ -179,76 +243,14 @@
     </div>
 @endif
 
-<!-- JavaScript for Search and Filter -->
+<!-- JavaScript for Button Animations -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchInput');
-    const gradeFilter = document.getElementById('gradeFilter');
-    const subjectFilter = document.getElementById('subjectFilter');
-    const bookItems = document.querySelectorAll('.book-item');
-
-    function filterBooks() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const selectedGrade = gradeFilter.value;
-        const selectedSubject = subjectFilter.value.toLowerCase();
-
-        let visibleCount = 0;
-
-        bookItems.forEach(item => {
-            const title = item.dataset.title;
-            const subject = item.dataset.subject;
-            const grade = item.dataset.grade;
-
-            const matchesSearch = title.includes(searchTerm) || subject.includes(searchTerm);
-            const matchesGrade = !selectedGrade || grade === selectedGrade;
-            const matchesSubject = !selectedSubject || subject.includes(selectedSubject);
-
-            if (matchesSearch && matchesGrade && matchesSubject) {
-                item.style.display = 'block';
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
-            }
-        });
-
-        // Show/hide no results message
-        const booksContainer = document.getElementById('booksContainer');
-        let noResultsMsg = document.getElementById('noResultsMessage');
-        
-        if (visibleCount === 0 && bookItems.length > 0) {
-            if (!noResultsMsg) {
-                noResultsMsg = document.createElement('div');
-                noResultsMsg.id = 'noResultsMessage';
-                noResultsMsg.className = 'col-12 text-center py-5';
-                noResultsMsg.innerHTML = `
-                    <div class="text-muted">
-                        <i class="fas fa-search fa-3x mb-3"></i>
-                        <h5>Tidak ada buku yang ditemukan</h5>
-                        <p>Coba ubah kata kunci pencarian atau filter</p>
-                    </div>
-                `;
-                booksContainer.appendChild(noResultsMsg);
-            }
-            noResultsMsg.style.display = 'block';
-        } else if (noResultsMsg) {
-            noResultsMsg.style.display = 'none';
-        }
-    }
-
-    // Add event listeners
-    searchInput.addEventListener('input', filterBooks);
-    gradeFilter.addEventListener('change', filterBooks);
-    subjectFilter.addEventListener('change', filterBooks);
-
-    // Add smooth animations
+    // Add smooth animations only for buttons
     const style = document.createElement('style');
     style.textContent = `
-        .book-item {
-            transition: all 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        .btn {
+            transition: all 0.2s ease;
         }
         .btn:hover {
             transform: translateY(-1px);

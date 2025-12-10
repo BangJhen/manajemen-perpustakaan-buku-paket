@@ -429,15 +429,11 @@ document.addEventListener('DOMContentLoaded', function() {
     searchInput.addEventListener('input', filterCategories);
     sortFilter.addEventListener('change', sortCategories);
 
-    // Add smooth animations
+    // Add smooth animations only for buttons
     const style = document.createElement('style');
     style.textContent = `
-        .category-item {
-            transition: all 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+        .btn {
+            transition: all 0.2s ease;
         }
         .btn:hover {
             transform: translateY(-1px);
