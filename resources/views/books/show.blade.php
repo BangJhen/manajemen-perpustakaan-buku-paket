@@ -46,6 +46,11 @@
                             </div>
                             <div class="col-sm-8">
                                 {{ $book->publisher }}
+                                @if($book->published_year)
+                                    <span class="badge bg-secondary ms-2">
+                                        <i class="fas fa-calendar-alt me-1"></i>{{ $book->published_year }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
 
@@ -140,6 +145,24 @@
                                 </span>
                             </div>
                         </div>
+
+                        @if($book->price)
+                        <div class="row mb-3">
+                            <div class="col-sm-4">
+                                <strong>Harga per Unit:</strong>
+                            </div>
+                            <div class="col-sm-8">
+                                <span class="badge bg-success fs-6">
+                                    <i class="fas fa-money-bill-wave me-1"></i>
+                                    Rp {{ number_format($book->price, 0, ',', '.') }}
+                                </span>
+                                <br>
+                                <small class="text-muted">
+                                    Total nilai: Rp {{ number_format($book->price * $book->stock, 0, ',', '.') }}
+                                </small>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="row mb-3">
                             <div class="col-sm-4">

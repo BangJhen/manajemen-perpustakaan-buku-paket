@@ -14,6 +14,7 @@ class Book extends Model
         'curriculum_type',
         'book_type',
         'publisher',
+        'published_year',
         'curriculum_year',
         'isbn',
         'description',
@@ -21,6 +22,7 @@ class Book extends Model
         'pages',
         'language',
         'stock',
+        'price',
         'condition',
         'damaged_count',
         'damage_notes',
@@ -28,7 +30,8 @@ class Book extends Model
     ];
 
     protected $casts = [
-        'published_date' => 'date'
+        'published_date' => 'date',
+        'price' => 'decimal:2'
     ];
 
     public function category()

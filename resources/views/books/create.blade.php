@@ -125,10 +125,22 @@
                                     Kurikulum <span class="text-danger">*</span>
                                 </label>
                                 <select class="form-select border-0 bg-light @error('curriculum_type') is-invalid @enderror" 
-                                        id="curriculum_type" name="curriculum_type" required style="padding: 0.75rem 1rem;">
+                                        id="curriculum_type_select" 
+                                        name="curriculum_type"
+                                        onchange="toggleCustomCurriculum()" 
+                                        required
+                                        style="padding: 0.75rem 1rem;">
                                     <option value="Kurikulum Merdeka" {{ old('curriculum_type', 'Kurikulum Merdeka') == 'Kurikulum Merdeka' ? 'selected' : '' }}>Kurikulum Merdeka</option>
                                     <option value="Kurikulum 2013" {{ old('curriculum_type') == 'Kurikulum 2013' ? 'selected' : '' }}>Kurikulum 2013</option>
+                                    <option value="KTSP" {{ old('curriculum_type') == 'KTSP' ? 'selected' : '' }}>KTSP</option>
+                                    <option value="custom" {{ old('curriculum_type') && !in_array(old('curriculum_type'), ['Kurikulum Merdeka', 'Kurikulum 2013', 'KTSP']) ? 'selected' : '' }}>Lainnya (Ketik Sendiri)</option>
                                 </select>
+                                <input type="text" 
+                                       class="form-control border-0 bg-light mt-2 @error('curriculum_type') is-invalid @enderror" 
+                                       id="curriculum_type_custom" 
+                                       value="{{ old('curriculum_type') && !in_array(old('curriculum_type'), ['Kurikulum Merdeka', 'Kurikulum 2013', 'KTSP']) ? old('curriculum_type') : '' }}"
+                                       placeholder="Ketik nama kurikulum..."
+                                       style="padding: 0.75rem 1rem; display: none;">
                                 @error('curriculum_type')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -149,7 +161,7 @@
                         </div>
 
                         <div class="row g-4 mt-2">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="publisher" class="form-label fw-semibold text-dark mb-2">
                                     Penerbit <span class="text-danger">*</span>
                                 </label>
@@ -163,6 +175,25 @@
                                 @error('publisher')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="published_year" class="form-label fw-semibold text-dark mb-2">
+                                    <i class="fas fa-calendar-alt me-1 text-primary"></i>Tahun Terbit
+                                </label>
+                                <input type="number" 
+                                       class="form-control border-0 bg-light @error('published_year') is-invalid @enderror" 
+                                       id="published_year" 
+                                       name="published_year" 
+                                       value="{{ old('published_year', date('Y')) }}" 
+                                       min="1900"
+                                       max="{{ date('Y') + 1 }}"
+                                       placeholder="{{ date('Y') }}"
+                                       style="padding: 0.75rem 1rem;">
+                                @error('published_year')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="text-muted">Tahun buku diterbitkan</small>
                             </div>
 
                             <div class="col-md-6">
@@ -270,6 +301,28 @@
                                 @error('pages')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="price" class="form-label fw-semibold text-dark mb-2">
+                                    <i class="fas fa-money-bill-wave me-1 text-success"></i>Harga per Unit
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text border-0 bg-light">Rp</span>
+                                    <input type="number" 
+                                           class="form-control border-0 bg-light @error('price') is-invalid @enderror" 
+                                           id="price" 
+                                           name="price" 
+                                           value="{{ old('price') }}" 
+                                           min="0"
+                                           step="0.01"
+                                           placeholder="0"
+                                           style="padding: 0.75rem 1rem;">
+                                    @error('price')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <small class="text-muted">Harga per unit untuk perhitungan anggaran</small>
                             </div>
                         </div>
 
@@ -463,7 +516,31 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         titleInput.focus();
     }, 300);
+
+    // Initialize curriculum type on page load
+    toggleCustomCurriculum();
 });
+
+// Toggle custom curriculum input
+function toggleCustomCurriculum() {
+    const select = document.getElementById('curriculum_type_select');
+    const customInput = document.getElementById('curriculum_type_custom');
+    
+    if (select.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.required = true;
+        select.removeAttribute('name');
+        select.removeAttribute('required');
+        customInput.setAttribute('name', 'curriculum_type');
+        setTimeout(() => customInput.focus(), 100);
+    } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+        customInput.removeAttribute('name');
+        select.setAttribute('name', 'curriculum_type');
+        select.setAttribute('required', 'required');
+    }
+}
 
 // Alert function
 function showAlert(message, type = 'info') {

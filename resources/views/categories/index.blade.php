@@ -132,13 +132,13 @@
                     </div>
 
                     <!-- Category Description -->
-                    <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.5;">
+                    <p class="text-muted mb-3" style="font-size: 0.9rem; line-height: 1.5; min-height: 45px;">
                         {{ $category->description ? Str::limit($category->description, 80) : 'Mata pelajaran ' . $category->name . ' untuk tingkat SMA.' }}
                     </p>
 
                     <!-- Books Preview -->
-                    @if($category->books && $category->books->count() > 0)
-                        <div class="mb-3">
+                    <div class="mb-3" style="min-height: 110px;">
+                        @if($category->books && $category->books->count() > 0)
                             <small class="text-muted fw-semibold">Buku Terbaru:</small>
                             <div class="mt-2">
                                 @foreach($category->books->take(2) as $book)
@@ -153,15 +153,13 @@
                                     <small class="text-muted">+{{ $category->books->count() - 2 }} buku lainnya</small>
                                 @endif
                             </div>
-                        </div>
-                    @else
-                        <div class="mb-3">
+                        @else
                             <div class="text-center py-3 bg-light rounded">
                                 <i class="fas fa-book-open text-muted mb-2"></i>
                                 <small class="text-muted d-block">Belum ada buku paket</small>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
 
                     <!-- Actions -->
                     <div class="d-flex gap-2">

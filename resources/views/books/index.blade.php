@@ -135,8 +135,8 @@
     <div class="row g-3" id="booksContainer">
         @foreach($books as $book)
         <div class="col-md-6 col-lg-4 book-item">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-3">
+            <div class="card border-0 shadow-sm h-100 d-flex flex-column">
+                <div class="card-body p-3 d-flex flex-column flex-grow-1">
                     <!-- Header with Status -->
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div class="d-flex align-items-center">
@@ -160,7 +160,7 @@
                     </div>
 
                     <!-- Book Info -->
-                    <div class="mb-3">
+                    <div class="mb-3" style="min-height: 80px;">
                         <div class="d-flex flex-wrap gap-1 mb-2">
                             <span class="badge bg-primary bg-opacity-10 text-primary border-0" style="font-size: 0.7rem;">
                                 {{ $book->subject }}
@@ -173,7 +173,7 @@
                             </span>
                         </div>
                         
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
                             <small class="text-muted">
                                 <i class="fas fa-boxes me-1"></i>
                                 Stok: <span class="fw-semibold text-dark">{{ $book->stock }}</span>
@@ -187,10 +187,21 @@
                                 <small class="text-muted">{{ $book->curriculum_year }}</small>
                             @endif
                         </div>
+                        @if($book->price)
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-success fw-semibold">
+                                <i class="fas fa-money-bill-wave me-1"></i>
+                                Rp {{ number_format($book->price, 0, ',', '.') }}/unit
+                            </small>
+                            <small class="text-muted">
+                                Total: Rp {{ number_format($book->price * $book->stock, 0, ',', '.') }}
+                            </small>
+                        </div>
+                        @endif
                     </div>
 
                     <!-- Actions -->
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 mt-auto">
                         <a href="{{ route('books.show', $book) }}" 
                            class="btn btn-outline-primary btn-sm flex-fill" 
                            title="Lihat Detail">

@@ -176,7 +176,7 @@
                             <i class="fas fa-plus text-primary fa-lg"></i>
                         </div>
                         <h5 class="fw-bold text-dark mb-2">Tambah Buku Paket SMA</h5>
-                        <p class="text-muted mb-4 small">Tambahkan buku paket kurikulum SMA dari Kemendikbud</p>
+                        <p class="text-muted mb-4 small" style="min-height: 40px;">Tambahkan buku paket kurikulum SMA dari Kemendikbud</p>
                         <a href="{{ route('books.create') }}" class="btn btn-primary w-100">
                             <i class="fas fa-book me-2"></i>Tambah Buku
                         </a>
@@ -191,7 +191,7 @@
                             <i class="fas fa-tags text-info fa-lg"></i>
                         </div>
                         <h5 class="fw-bold text-dark mb-2">Mata Pelajaran SMA</h5>
-                        <p class="text-muted mb-4 small">Kelola mata pelajaran SMA untuk mengorganisir buku paket</p>
+                        <p class="text-muted mb-4 small" style="min-height: 40px;">Kelola mata pelajaran SMA untuk mengorganisir buku paket</p>
                         <a href="{{ route('categories.create') }}" class="btn btn-info w-100">
                             <i class="fas fa-tag me-2"></i>Tambah Kategori
                         </a>
@@ -206,7 +206,7 @@
                             <i class="fas fa-list text-success fa-lg"></i>
                         </div>
                         <h5 class="fw-bold text-dark mb-2">Inventaris Buku SMA</h5>
-                        <p class="text-muted mb-4 small">Kelola inventaris buku paket SMA yang tersedia</p>
+                        <p class="text-muted mb-4 small" style="min-height: 40px;">Kelola inventaris buku paket SMA yang tersedia</p>
                         <a href="{{ route('books.index') }}" class="btn btn-success w-100">
                             <i class="fas fa-eye me-2"></i>Lihat Buku
                         </a>
@@ -221,7 +221,7 @@
                             <i class="fas fa-exclamation-triangle text-warning fa-lg"></i>
                         </div>
                         <h5 class="fw-bold text-dark mb-2">Buku Rusak</h5>
-                        <p class="text-muted mb-4 small">Lihat dan kelola buku paket yang rusak</p>
+                        <p class="text-muted mb-4 small" style="min-height: 40px;">Lihat dan kelola buku paket yang rusak</p>
                         <a href="{{ route('books.damaged') }}" class="btn btn-warning w-100">
                             <i class="fas fa-tools me-2"></i>Kelola Buku Rusak
                         </a>

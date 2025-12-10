@@ -20,6 +20,14 @@
                     @csrf
                     @method('PUT')
                     
+                    <!-- Informasi Dasar -->
+                    <div class="mb-4">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-book me-2"></i>Informasi Dasar
+                        </h5>
+                        <hr class="mb-4">
+                    </div>
+                    
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="title" class="form-label">Judul Buku <span class="text-danger">*</span></label>
@@ -38,6 +46,14 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                    </div>
+
+                    <!-- Informasi Akademik -->
+                    <div class="mb-4 mt-5">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-graduation-cap me-2"></i>Informasi Akademik
+                        </h5>
+                        <hr class="mb-4">
                     </div>
 
                     <div class="row">
@@ -110,22 +126,40 @@
                         </div>
                     </div>
 
+                    <!-- Kurikulum & Penerbit -->
+                    <div class="mb-4 mt-5">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-book-reader me-2"></i>Kurikulum & Penerbit
+                        </h5>
+                        <hr class="mb-4">
+                    </div>
+
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="curriculum_type" class="form-label">Jenis Kurikulum <span class="text-danger">*</span></label>
                             <select class="form-select @error('curriculum_type') is-invalid @enderror" 
-                                    id="curriculum_type" name="curriculum_type" required>
+                                    id="curriculum_type_select" 
+                                    name="curriculum_type"
+                                    onchange="toggleCustomCurriculumEdit()" 
+                                    required>
                                 <option value="">Pilih Kurikulum</option>
                                 <option value="Kurikulum Merdeka" {{ old('curriculum_type', $book->curriculum_type) == 'Kurikulum Merdeka' ? 'selected' : '' }}>Kurikulum Merdeka</option>
                                 <option value="Kurikulum 2013" {{ old('curriculum_type', $book->curriculum_type) == 'Kurikulum 2013' ? 'selected' : '' }}>Kurikulum 2013</option>
                                 <option value="KTSP" {{ old('curriculum_type', $book->curriculum_type) == 'KTSP' ? 'selected' : '' }}>KTSP</option>
+                                <option value="custom" {{ old('curriculum_type', $book->curriculum_type) && !in_array(old('curriculum_type', $book->curriculum_type), ['Kurikulum Merdeka', 'Kurikulum 2013', 'KTSP']) ? 'selected' : '' }}>Lainnya (Ketik Sendiri)</option>
                             </select>
+                            <input type="text" 
+                                   class="form-control mt-2 @error('curriculum_type') is-invalid @enderror" 
+                                   id="curriculum_type_custom" 
+                                   value="{{ old('curriculum_type', $book->curriculum_type) && !in_array(old('curriculum_type', $book->curriculum_type), ['Kurikulum Merdeka', 'Kurikulum 2013', 'KTSP']) ? old('curriculum_type', $book->curriculum_type) : '' }}"
+                                   placeholder="Ketik nama kurikulum..."
+                                   style="display: none;">
                             @error('curriculum_type')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label for="curriculum_year" class="form-label">Tahun Kurikulum</label>
                             <input type="number" class="form-control @error('curriculum_year') is-invalid @enderror" 
                                    id="curriculum_year" name="curriculum_year" 
@@ -134,6 +168,24 @@
                             @error('curriculum_year')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="published_year" class="form-label">
+                                <i class="fas fa-calendar-alt me-1 text-primary"></i>Tahun Terbit
+                            </label>
+                            <input type="number" 
+                                   class="form-control @error('published_year') is-invalid @enderror" 
+                                   id="published_year" 
+                                   name="published_year" 
+                                   value="{{ old('published_year', $book->published_year) }}" 
+                                   min="1900"
+                                   max="{{ date('Y') + 1 }}"
+                                   placeholder="{{ date('Y') }}">
+                            @error('published_year')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="text-muted">Tahun buku diterbitkan</small>
                         </div>
                     </div>
 
@@ -146,6 +198,14 @@
                         @enderror
                     </div>
 
+                    <!-- Deskripsi -->
+                    <div class="mb-4 mt-5">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-align-left me-2"></i>Deskripsi
+                        </h5>
+                        <hr class="mb-4">
+                    </div>
+
                     <div class="mb-3">
                         <label for="description" class="form-label">Deskripsi</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" 
@@ -153,6 +213,14 @@
                         @error('description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+
+                    <!-- Detail Buku -->
+                    <div class="mb-4 mt-5">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-info-circle me-2"></i>Detail Buku
+                        </h5>
+                        <hr class="mb-4">
                     </div>
 
                     <div class="row">
@@ -176,6 +244,35 @@
                         </div>
                         
                         <div class="col-md-4 mb-3">
+                            <label for="language" class="form-label">Bahasa <span class="text-danger">*</span></label>
+                            <select class="form-select @error('language') is-invalid @enderror" 
+                                    id="language" name="language" required>
+                                <option value="Indonesian" {{ old('language', $book->language) == 'Indonesian' ? 'selected' : '' }}>
+                                    Bahasa Indonesia
+                                </option>
+                                <option value="English" {{ old('language', $book->language) == 'English' ? 'selected' : '' }}>
+                                    English
+                                </option>
+                                <option value="Other" {{ old('language', $book->language) == 'Other' ? 'selected' : '' }}>
+                                    Lainnya
+                                </option>
+                            </select>
+                            @error('language')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Stok & Harga -->
+                    <div class="mb-4 mt-5">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-warehouse me-2"></i>Stok & Harga
+                        </h5>
+                        <hr class="mb-4">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label for="stock" class="form-label">Stok <span class="text-danger">*</span></label>
                             <input type="number" class="form-control @error('stock') is-invalid @enderror" 
                                    id="stock" name="stock" value="{{ old('stock', $book->stock) }}" min="0" required>
@@ -183,9 +280,37 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="price" class="form-label">
+                                <i class="fas fa-money-bill-wave me-1 text-success"></i>Harga per Unit
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" 
+                                       class="form-control @error('price') is-invalid @enderror" 
+                                       id="price" 
+                                       name="price" 
+                                       value="{{ old('price', $book->price) }}" 
+                                       min="0"
+                                       step="0.01"
+                                       placeholder="0">
+                                @error('price')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <small class="text-muted">Harga per unit untuk perhitungan anggaran</small>
+                        </div>
                     </div>
 
-                    <!-- Damage Tracking Section -->
+                    <!-- Kondisi & Kerusakan -->
+                    <div class="mb-4 mt-5">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Kondisi & Kerusakan
+                        </h5>
+                        <hr class="mb-4">
+                    </div>
+
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="condition" class="form-label">Kondisi Buku <span class="text-danger">*</span></label>
@@ -221,26 +346,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="language" class="form-label">Bahasa <span class="text-danger">*</span></label>
-                        <select class="form-select @error('language') is-invalid @enderror" 
-                                id="language" name="language" required>
-                            <option value="Indonesian" {{ old('language', $book->language) == 'Indonesian' ? 'selected' : '' }}>
-                                Bahasa Indonesia
-                            </option>
-                            <option value="English" {{ old('language', $book->language) == 'English' ? 'selected' : '' }}>
-                                English
-                            </option>
-                            <option value="Other" {{ old('language', $book->language) == 'Other' ? 'selected' : '' }}>
-                                Lainnya
-                            </option>
-                        </select>
-                        @error('language')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
                         <a href="{{ route('books.show', $book) }}" class="btn btn-secondary me-md-2">Batal</a>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-2"></i>Perbarui Buku
@@ -250,7 +356,36 @@
             </div>
         </div>
     </div>
+</div>
+
+<script>
+// Toggle custom curriculum input for edit form
+function toggleCustomCurriculumEdit() {
+    const select = document.getElementById('curriculum_type_select');
+    const customInput = document.getElementById('curriculum_type_custom');
     
+    if (select.value === 'custom') {
+        customInput.style.display = 'block';
+        customInput.required = true;
+        select.removeAttribute('name');
+        select.removeAttribute('required');
+        customInput.setAttribute('name', 'curriculum_type');
+        setTimeout(() => customInput.focus(), 100);
+    } else {
+        customInput.style.display = 'none';
+        customInput.required = false;
+        customInput.removeAttribute('name');
+        select.setAttribute('name', 'curriculum_type');
+        select.setAttribute('required', 'required');
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    toggleCustomCurriculumEdit();
+});
+</script>
+
     <div class="col-md-4">
         <div class="card shadow">
             <div class="card-header">
