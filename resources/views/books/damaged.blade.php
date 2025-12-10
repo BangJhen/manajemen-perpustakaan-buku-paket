@@ -91,7 +91,6 @@
                             <th>Total Stok</th>
                             <th>Jumlah Rusak</th>
                             <th>Stok Baik</th>
-                            <th>Catatan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -131,27 +130,16 @@
                                 <span class="badge bg-success">{{ $book->getAvailableStock() }}</span>
                             </td>
                             <td>
-                                @if($book->damage_notes)
-                                    <button type="button" class="btn btn-sm btn-outline-info" 
-                                            data-bs-toggle="tooltip" 
-                                            title="{{ $book->damage_notes }}">
-                                        <i class="fas fa-info-circle"></i>
-                                    </button>
-                                @else
-                                    <span class="text-muted">-</span>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm" role="group">
+                                <div class="d-flex gap-2">
                                     <a href="{{ route('books.show', $book) }}" 
-                                       class="btn btn-outline-info" 
+                                       class="btn btn-sm btn-info text-white" 
                                        title="Lihat Detail">
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fas fa-eye me-1"></i>Detail
                                     </a>
                                     <a href="{{ route('books.edit', $book) }}" 
-                                       class="btn btn-outline-warning" 
+                                       class="btn btn-sm btn-warning text-white" 
                                        title="Edit">
-                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-edit me-1"></i>Edit
                                     </a>
                                 </div>
                             </td>
@@ -188,13 +176,4 @@
     </p>
 </div>
 
-@push('scripts')
-<script>
-    // Initialize tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-</script>
-@endpush
 @endsection

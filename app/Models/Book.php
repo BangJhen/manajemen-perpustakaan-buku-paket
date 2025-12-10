@@ -36,6 +36,11 @@ class Book extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function damages()
+    {
+        return $this->hasMany(BookDamage::class);
+    }
+
     // Helper methods for damage tracking
     public function isDamaged()
     {

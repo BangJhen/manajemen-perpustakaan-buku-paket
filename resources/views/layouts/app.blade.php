@@ -69,7 +69,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('books.damaged') ? 'active' : '' }}" href="{{ route('books.damaged') }}">
-                                <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+                                <i class="fas fa-exclamation-triangle me-2"></i>
                                 Buku Rusak
                             </a>
                         </li>

@@ -40,19 +40,108 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="subject" class="form-label">Mata Pelajaran <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('subject') is-invalid @enderror" 
+                                   id="subject" name="subject" value="{{ old('subject', $book->subject) }}" required>
+                            @error('subject')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="category_id" class="form-label">Kategori Mata Pelajaran <span class="text-danger">*</span></label>
+                            <select class="form-select @error('category_id') is-invalid @enderror" 
+                                    id="category_id" name="category_id" required>
+                                <option value="">Pilih Kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" 
+                                            {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="grade_level" class="form-label">Kelas <span class="text-danger">*</span></label>
+                            <select class="form-select @error('grade_level') is-invalid @enderror" 
+                                    id="grade_level" name="grade_level" required>
+                                <option value="">Pilih Kelas</option>
+                                <option value="10" {{ old('grade_level', $book->grade_level) == '10' ? 'selected' : '' }}>Kelas 10</option>
+                                <option value="11" {{ old('grade_level', $book->grade_level) == '11' ? 'selected' : '' }}>Kelas 11</option>
+                                <option value="12" {{ old('grade_level', $book->grade_level) == '12' ? 'selected' : '' }}>Kelas 12</option>
+                            </select>
+                            @error('grade_level')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="semester" class="form-label">Semester</label>
+                            <select class="form-select @error('semester') is-invalid @enderror" 
+                                    id="semester" name="semester">
+                                <option value="">Pilih Semester</option>
+                                <option value="1" {{ old('semester', $book->semester) == '1' ? 'selected' : '' }}>Semester 1</option>
+                                <option value="2" {{ old('semester', $book->semester) == '2' ? 'selected' : '' }}>Semester 2</option>
+                            </select>
+                            @error('semester')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="book_type" class="form-label">Jenis Buku <span class="text-danger">*</span></label>
+                            <select class="form-select @error('book_type') is-invalid @enderror" 
+                                    id="book_type" name="book_type" required>
+                                <option value="">Pilih Jenis</option>
+                                <option value="Buku Siswa" {{ old('book_type', $book->book_type) == 'Buku Siswa' ? 'selected' : '' }}>Buku Siswa</option>
+                                <option value="Buku Guru" {{ old('book_type', $book->book_type) == 'Buku Guru' ? 'selected' : '' }}>Buku Guru</option>
+                            </select>
+                            @error('book_type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="curriculum_type" class="form-label">Jenis Kurikulum <span class="text-danger">*</span></label>
+                            <select class="form-select @error('curriculum_type') is-invalid @enderror" 
+                                    id="curriculum_type" name="curriculum_type" required>
+                                <option value="">Pilih Kurikulum</option>
+                                <option value="Kurikulum Merdeka" {{ old('curriculum_type', $book->curriculum_type) == 'Kurikulum Merdeka' ? 'selected' : '' }}>Kurikulum Merdeka</option>
+                                <option value="Kurikulum 2013" {{ old('curriculum_type', $book->curriculum_type) == 'Kurikulum 2013' ? 'selected' : '' }}>Kurikulum 2013</option>
+                                <option value="KTSP" {{ old('curriculum_type', $book->curriculum_type) == 'KTSP' ? 'selected' : '' }}>KTSP</option>
+                            </select>
+                            @error('curriculum_type')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="curriculum_year" class="form-label">Tahun Kurikulum</label>
+                            <input type="number" class="form-control @error('curriculum_year') is-invalid @enderror" 
+                                   id="curriculum_year" name="curriculum_year" 
+                                   value="{{ old('curriculum_year', $book->curriculum_year) }}" 
+                                   min="2000" max="2030" placeholder="2022">
+                            @error('curriculum_year')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="mb-3">
-                        <label for="category_id" class="form-label">Mata Pelajaran <span class="text-danger">*</span></label>
-                        <select class="form-select @error('category_id') is-invalid @enderror" 
-                                id="category_id" name="category_id" required>
-                            <option value="">Pilih Mata Pelajaran</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" 
-                                        {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('category_id')
+                        <label for="publisher" class="form-label">Penerbit <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('publisher') is-invalid @enderror" 
+                               id="publisher" name="publisher" value="{{ old('publisher', $book->publisher) }}" required>
+                        @error('publisher')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

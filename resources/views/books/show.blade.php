@@ -6,8 +6,8 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Detail Buku</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-            <a href="{{ route('books.edit', $book) }}" class="btn btn-warning">
+        <div class="d-flex gap-2">
+            <a href="{{ route('books.edit', $book) }}" class="btn btn-warning text-white">
                 <i class="fas fa-edit me-2"></i>Edit
             </a>
             <form action="{{ route('books.destroy', $book) }}" method="POST" class="d-inline" 
@@ -18,10 +18,10 @@
                     <i class="fas fa-trash me-2"></i>Hapus
                 </button>
             </form>
+            <a href="{{ route('books.index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Kembali
+            </a>
         </div>
-        <a href="{{ route('books.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Kembali
-        </a>
     </div>
 </div>
 
@@ -215,6 +215,137 @@
                 <hr>
                 <h5>Deskripsi</h5>
                 <p class="text-muted">{{ $book->description }}</p>
+                @endif
+            </div>
+        </div>
+
+        <!-- Damage Records Section -->
+        <div class="card shadow mt-4">
+            <div class="card-header bg-danger text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="m-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Riwayat Kerusakan Buku
+                    </h5>
+                    <a href="{{ route('books.damages.create', $book) }}" class="btn btn-light btn-sm">
+                        <i class="fas fa-plus me-1"></i>Tambah Laporan
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                @if($book->damages->count() > 0)
+                    <div class="alert alert-warning mb-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Total <strong>{{ $book->damages->count() }}</strong> laporan kerusakan tercatat
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Jenis Kerusakan</th>
+                                    <th>Tingkat</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($book->damages()->latest()->get() as $damage)
+                                <tr>
+                                    <td>
+                                        <small class="text-muted">
+                                            {{ $damage->damage_date->format('d/m/Y') }}
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $damage->damage_type }}</strong>
+                                        @if($damage->location)
+                                            <br><small class="text-muted">{{ $damage->location }}</small>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $damage->getSeverityBadgeClass() }}">
+                                            {{ ucfirst($damage->severity) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $damage->getStatusBadgeClass() }}">
+                                            {{ str_replace('_', ' ', ucfirst($damage->status)) }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a href="{{ route('books.damages.show', [$book, $damage]) }}" 
+                                               class="btn btn-info btn-sm text-white" 
+                                               title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ route('books.damages.edit', [$book, $damage]) }}" 
+                                               class="btn btn-warning btn-sm text-white"
+                                               title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('books.damages.destroy', [$book, $damage]) }}" 
+                                                  method="POST" 
+                                                  class="d-inline"
+                                                  onsubmit="return confirm('Hapus laporan kerusakan ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Summary Statistics -->
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="card border-danger">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted mb-2">Belum Diperbaiki</h6>
+                                    <h3 class="text-danger mb-0">
+                                        {{ $book->damages()->where('status', 'rusak')->count() }}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-success">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted mb-2">Sudah Diperbaiki</h6>
+                                    <h3 class="text-success mb-0">
+                                        {{ $book->damages()->where('status', 'diperbaiki')->count() }}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-dark">
+                                <div class="card-body text-center">
+                                    <h6 class="text-muted mb-2">Tidak Dapat Diperbaiki</h6>
+                                    <h3 class="text-dark mb-0">
+                                        {{ $book->damages()->where('status', 'tidak_dapat_diperbaiki')->count() }}
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="text-center py-5">
+                        <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                        <h5 class="text-muted">Tidak Ada Laporan Kerusakan</h5>
+                        <p class="text-muted">Buku ini dalam kondisi baik tanpa catatan kerusakan</p>
+                        <a href="{{ route('books.damages.create', $book) }}" class="btn btn-danger">
+                            <i class="fas fa-plus me-2"></i>Tambah Laporan Kerusakan
+                        </a>
+                    </div>
                 @endif
             </div>
         </div>
