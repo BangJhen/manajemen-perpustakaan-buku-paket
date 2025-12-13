@@ -79,13 +79,14 @@ class BookController extends Controller
             'language' => 'required|string',
             'stock' => 'required|integer|min:0',
             'price' => 'nullable|numeric|min:0',
-            'condition' => 'required|in:baik,rusak',
-            'damaged_count' => 'nullable|integer|min:0|lte:stock',
-            'damage_notes' => 'nullable|string',
             'category_id' => 'required|exists:categories,id'
         ]);
 
-        Book::create($request->all());
+        $data = $request->all();
+        $data['condition'] = 'baik';
+        $data['damaged_count'] = 0;
+        
+        Book::create($data);
         return redirect()->route('books.index')->with('success', 'Buku berhasil ditambahkan!');
     }
 
@@ -128,9 +129,6 @@ class BookController extends Controller
             'language' => 'required|string',
             'stock' => 'required|integer|min:0',
             'price' => 'nullable|numeric|min:0',
-            'condition' => 'required|in:baik,rusak',
-            'damaged_count' => 'nullable|integer|min:0|lte:stock',
-            'damage_notes' => 'nullable|string',
             'category_id' => 'required|exists:categories,id'
         ]);
 
@@ -148,11 +146,27 @@ class BookController extends Controller
     }
 
     /**
-     * Display a listing of damaged books.
+     * Display a listing of damaged books (only books with damage reports).
      */
     public function damaged()
     {
-        $books = Book::damaged()->with(['category'])->paginate(10);
+        // Hanya tampilkan buku yang sudah ada laporan kerusakan
+        $books = Book::with(['category', 'damages'])
+            ->whereHas('damages')
+            ->orderBy('title')
+            ->paginate(15);
         return view('books.damaged', compact('books'));
+    }
+    
+    /**
+     * Show page to select book for damage reporting.
+     */
+    public function selectBookForDamage()
+    {
+        // Tampilkan semua buku untuk dipilih
+        $books = Book::with(['category', 'damages'])
+            ->orderBy('title')
+            ->paginate(15);
+        return view('books.select-for-damage', compact('books'));
     }
 }

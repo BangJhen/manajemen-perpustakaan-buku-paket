@@ -214,57 +214,6 @@
                             </div>
                         </div>
 
-                        <!-- Damage Tracking Section -->
-                        <div class="row g-4 mt-2">
-                            <div class="col-md-4">
-                                <label for="condition" class="form-label fw-semibold text-dark mb-2">
-                                    Kondisi Buku <span class="text-danger">*</span>
-                                </label>
-                                <select class="form-select border-0 bg-light @error('condition') is-invalid @enderror" 
-                                        id="condition" 
-                                        name="condition" 
-                                        required
-                                        style="padding: 0.75rem 1rem;">
-                                    <option value="baik" {{ old('condition', 'baik') == 'baik' ? 'selected' : '' }}>Baik</option>
-                                    <option value="rusak" {{ old('condition') == 'rusak' ? 'selected' : '' }}>Rusak</option>
-                                </select>
-                                @error('condition')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="damaged_count" class="form-label fw-semibold text-dark mb-2">
-                                    Jumlah Buku Rusak
-                                </label>
-                                <input type="number" 
-                                       class="form-control border-0 bg-light @error('damaged_count') is-invalid @enderror" 
-                                       id="damaged_count" 
-                                       name="damaged_count" 
-                                       value="{{ old('damaged_count', 0) }}" 
-                                       min="0"
-                                       style="padding: 0.75rem 1rem;">
-                                <small class="text-muted">Jumlah buku yang rusak dari total stok</small>
-                                @error('damaged_count')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-12 mt-3">
-                                <label for="damage_notes" class="form-label fw-semibold text-dark mb-2">
-                                    Catatan Kerusakan
-                                </label>
-                                <textarea class="form-control border-0 bg-light @error('damage_notes') is-invalid @enderror" 
-                                          id="damage_notes" 
-                                          name="damage_notes" 
-                                          rows="3" 
-                                          style="padding: 0.75rem 1rem;"
-                                          placeholder="Jelaskan kondisi kerusakan buku (halaman robek, cover rusak, dll)">{{ old('damage_notes') }}</textarea>
-                                @error('damage_notes')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Step 3: Additional Information (Optional) -->

@@ -11,6 +11,7 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::resource('books', BookController::class);
 Route::get('/books-damaged', [BookController::class, 'damaged'])->name('books.damaged');
+Route::get('/books-select-for-damage', [BookController::class, 'selectBookForDamage'])->name('books.selectForDamage');
 
 // Book Damage Routes
 Route::get('/books/{book}/damages/create', [BookDamageController::class, 'create'])->name('books.damages.create');

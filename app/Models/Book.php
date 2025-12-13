@@ -44,24 +44,45 @@ class Book extends Model
         return $this->hasMany(BookDamage::class);
     }
 
+    // Accessor untuk menghitung damaged_count dari relasi damages
+    public function getDamagedCountAttribute($value)
+    {
+        // Jika ada value dari database, gunakan itu (untuk backward compatibility)
+        // Jika tidak, hitung dari relasi damages
+        if ($this->relationLoaded('damages')) {
+            return $this->damages->count();
+        }
+        return $value ?? 0;
+    }
+
+    // Accessor untuk menentukan kondisi otomatis
+    public function getConditionAttribute($value)
+    {
+        // Jika ada laporan kerusakan, kondisi = rusak
+        if ($this->relationLoaded('damages')) {
+            return $this->damages->count() > 0 ? 'rusak' : 'baik';
+        }
+        return $value ?? 'baik';
+    }
+
     // Helper methods for damage tracking
     public function isDamaged()
     {
-        return $this->condition === 'rusak';
+        return $this->damages()->count() > 0;
     }
 
     public function getAvailableStock()
     {
-        return $this->stock - $this->damaged_count;
+        return $this->stock - $this->damages()->count();
     }
 
     public function scopeDamaged($query)
     {
-        return $query->where('condition', 'rusak')->orWhere('damaged_count', '>', 0);
+        return $query->whereHas('damages');
     }
 
     public function scopeGoodCondition($query)
     {
-        return $query->where('condition', 'baik')->where('damaged_count', 0);
+        return $query->whereDoesntHave('damages');
     }
 }

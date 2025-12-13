@@ -13,6 +13,13 @@ class BookDamageController extends Controller
      */
     public function create(Book $book)
     {
+        // Cek apakah laporan sudah mencapai stok maksimal
+        $book->load('damages');
+        if ($book->damages->count() >= $book->stock) {
+            return redirect()->route('books.damaged')
+                ->with('error', 'Laporan kerusakan sudah mencapai stok maksimal untuk buku ini!');
+        }
+        
         return view('books.damages.create', compact('book'));
     }
 
@@ -21,6 +28,13 @@ class BookDamageController extends Controller
      */
     public function store(Request $request, Book $book)
     {
+        // Validasi stok maksimal
+        $book->load('damages');
+        if ($book->damages->count() >= $book->stock) {
+            return redirect()->route('books.damaged')
+                ->with('error', 'Laporan kerusakan sudah mencapai stok maksimal untuk buku ini!');
+        }
+
         $request->validate([
             'damage_type' => 'required|string|max:255',
             'severity' => 'required|in:ringan,sedang,berat',
@@ -35,10 +49,7 @@ class BookDamageController extends Controller
 
         $book->damages()->create($request->all());
 
-        // Update damaged_count di tabel books
-        $book->increment('damaged_count');
-
-        return redirect()->route('books.show', $book)
+        return redirect()->route('books.damaged')
             ->with('success', 'Laporan kerusakan buku berhasil ditambahkan!');
     }
 
@@ -88,12 +99,7 @@ class BookDamageController extends Controller
     {
         $damage->delete();
 
-        // Update damaged_count di tabel books
-        if ($book->damaged_count > 0) {
-            $book->decrement('damaged_count');
-        }
-
-        return redirect()->route('books.show', $book)
+        return redirect()->route('books.damaged')
             ->with('success', 'Laporan kerusakan berhasil dihapus!');
     }
 }

@@ -303,50 +303,7 @@
                         </div>
                     </div>
 
-                    <!-- Kondisi & Kerusakan -->
-                    <div class="mb-4 mt-5">
-                        <h5 class="text-primary mb-3">
-                            <i class="fas fa-exclamation-triangle me-2"></i>Kondisi & Kerusakan
-                        </h5>
-                        <hr class="mb-4">
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="condition" class="form-label">Kondisi Buku <span class="text-danger">*</span></label>
-                            <select class="form-select @error('condition') is-invalid @enderror" 
-                                    id="condition" name="condition" required>
-                                <option value="baik" {{ old('condition', $book->condition ?? 'baik') == 'baik' ? 'selected' : '' }}>Baik</option>
-                                <option value="rusak" {{ old('condition', $book->condition) == 'rusak' ? 'selected' : '' }}>Rusak</option>
-                            </select>
-                            @error('condition')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            <label for="damaged_count" class="form-label">Jumlah Buku Rusak</label>
-                            <input type="number" class="form-control @error('damaged_count') is-invalid @enderror" 
-                                   id="damaged_count" name="damaged_count" 
-                                   value="{{ old('damaged_count', $book->damaged_count ?? 0) }}" min="0">
-                            <small class="text-muted">Jumlah buku yang rusak dari total stok</small>
-                            @error('damaged_count')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="damage_notes" class="form-label">Catatan Kerusakan</label>
-                        <textarea class="form-control @error('damage_notes') is-invalid @enderror" 
-                                  id="damage_notes" name="damage_notes" rows="3" 
-                                  placeholder="Jelaskan kondisi kerusakan buku">{{ old('damage_notes', $book->damage_notes) }}</textarea>
-                        @error('damage_notes')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                         <a href="{{ route('books.show', $book) }}" class="btn btn-secondary me-md-2">Batal</a>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-2"></i>Perbarui Buku
