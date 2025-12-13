@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
         // Seed SMA books for SMAN 1 Dayeuhkolot
         $this->call([
-            SMABooksSeeder::class,
+            SMABooksSeederNew::class,
         ]);
     }
 }

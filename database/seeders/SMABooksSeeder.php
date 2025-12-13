@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Book;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class SMABooksSeeder extends Seeder
 {
@@ -41,26 +42,33 @@ class SMABooksSeeder extends Seeder
             Category::create($category);
         }
 
-        // Create SMA Books for SMAN 1 Dayeuhkolot
+        // Create SMA Books for SMAN 1 Dayeuhkolot with complete data
         $smaBooks = [
-            // KELAS X (10)
+            // KELAS X
             // Matematika Kelas X
             [
                 'title' => 'Matematika untuk SMA/MA Kelas X',
                 'subject' => 'Matematika',
-                'grade_level' => '10',
+                'grade_level' => 'X',
                 'semester' => null,
                 'curriculum_type' => 'Kurikulum Merdeka',
                 'book_type' => 'Buku Siswa',
                 'publisher' => 'Kemendikbud',
+                'published_year' => 2024,
                 'curriculum_year' => 2022,
                 'isbn' => '978-602-427-900-1',
                 'description' => 'Buku paket Matematika untuk siswa kelas X SMA/MA berdasarkan Kurikulum Merdeka. Membahas fungsi, trigonometri, dan statistika.',
-                'published_date' => '2022-07-01',
+                'published_date' => '2024-01-15',
                 'pages' => 280,
                 'language' => 'Indonesian',
-                'stock' => 35,
-                'category_id' => 1
+                'stock' => 45,
+                'price' => 75000,
+                'condition' => 'baik',
+                'damaged_count' => 0,
+                'damage_notes' => null,
+                'category_id' => 1,
+                'created_at' => Carbon::now()->subMonths(6),
+                'updated_at' => Carbon::now()->subMonths(6)
             ],
             [
                 'title' => 'Matematika untuk SMA/MA Kelas X - Buku Guru',
