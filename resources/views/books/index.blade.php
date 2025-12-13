@@ -4,220 +4,111 @@
 
 @section('content')
 <!-- Header Section -->
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h2 class="fw-bold text-dark mb-1">Kelola Buku Paket SMA</h2>
-                <p class="text-muted mb-0">Manajemen inventaris buku paket SMAN 1 Dayeuhkolot</p>
-            </div>
-            <a href="{{ route('books.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>Tambah Buku
-            </a>
-        </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">Kelola Buku</h1>
+        <p class="page-subtitle">Manajemen inventaris buku paket</p>
     </div>
+    <a href="{{ route('books.create') }}" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Tambah Buku
+    </a>
 </div>
 
 <!-- Search and Filter Section -->
-<div class="row mb-3">
-    <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-3">
-                <form action="{{ route('books.index') }}" method="GET" id="filterForm">
-                    <div class="row g-2 align-items-end">
-                        <!-- Search -->
-                        <div class="col-md-3">
-                            <input type="text" 
-                                   class="form-control form-control-sm border-0 bg-light" 
-                                   name="search" 
-                                   value="{{ request('search') }}"
-                                   placeholder="🔍 Cari judul buku...">
-                        </div>
-                        <!-- Grade -->
-                        <div class="col-md-2">
-                            <select class="form-select form-select-sm border-0 bg-light" name="grade">
-                                <option value="">Semua Kelas</option>
-                                <option value="10" {{ request('grade') == '10' ? 'selected' : '' }}>Kelas 10</option>
-                                <option value="11" {{ request('grade') == '11' ? 'selected' : '' }}>Kelas 11</option>
-                                <option value="12" {{ request('grade') == '12' ? 'selected' : '' }}>Kelas 12</option>
-                            </select>
-                        </div>
-                        <!-- Subject -->
-                        <div class="col-md-2">
-                            <select class="form-select form-select-sm border-0 bg-light" name="subject">
-                                <option value="">Semua Mapel</option>
-                                <option value="Matematika" {{ request('subject') == 'Matematika' ? 'selected' : '' }}>Matematika</option>
-                                <option value="Fisika" {{ request('subject') == 'Fisika' ? 'selected' : '' }}>Fisika</option>
-                                <option value="Kimia" {{ request('subject') == 'Kimia' ? 'selected' : '' }}>Kimia</option>
-                                <option value="Biologi" {{ request('subject') == 'Biologi' ? 'selected' : '' }}>Biologi</option>
-                                <option value="Bahasa Indonesia" {{ request('subject') == 'Bahasa Indonesia' ? 'selected' : '' }}>B. Indonesia</option>
-                                <option value="Bahasa Inggris" {{ request('subject') == 'Bahasa Inggris' ? 'selected' : '' }}>B. Inggris</option>
-                            </select>
-                        </div>
-                        <!-- Date From -->
-                        <div class="col-md-2">
-                            <input type="date" 
-                                   class="form-control form-control-sm border-0 bg-light" 
-                                   name="date_from" 
-                                   value="{{ request('date_from') }}"
-                                   placeholder="Dari">
-                        </div>
-                        <!-- Date To -->
-                        <div class="col-md-2">
-                            <input type="date" 
-                                   class="form-control form-control-sm border-0 bg-light" 
-                                   name="date_to" 
-                                   value="{{ request('date_to') }}"
-                                   placeholder="Sampai">
-                        </div>
-                        <!-- Sort -->
-                        <div class="col-md-1">
-                            <select class="form-select form-select-sm border-0 bg-light" name="sort" title="Urutkan">
-                                <option value="desc" {{ request('sort', 'desc') == 'desc' ? 'selected' : '' }}>↓</option>
-                                <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>↑</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="row g-2 mt-2">
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-filter me-1"></i>Filter
-                            </button>
-                        </div>
-                        @if(request()->hasAny(['search', 'grade', 'subject', 'date_from', 'date_to', 'sort']))
-                        <div class="col-auto">
-                            <a href="{{ route('books.index') }}" class="btn btn-outline-secondary btn-sm">
-                                <i class="fas fa-times me-1"></i>Reset
-                            </a>
-                        </div>
+<div class="card mb-4">
+    <div class="card-body">
+        <form action="{{ route('books.index') }}" method="GET">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" 
+                           class="form-control" 
+                           name="search" 
+                           value="{{ request('search') }}"
+                           placeholder="Cari judul buku...">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select" name="grade">
+                        <option value="">Semua Kelas</option>
+                        <option value="X" {{ request('grade') == 'X' ? 'selected' : '' }}>Kelas X</option>
+                        <option value="XI" {{ request('grade') == 'XI' ? 'selected' : '' }}>Kelas XI</option>
+                        <option value="XII" {{ request('grade') == 'XII' ? 'selected' : '' }}>Kelas XII</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="subject">
+                        <option value="">Semua Mata Pelajaran</option>
+                        <option value="Matematika" {{ request('subject') == 'Matematika' ? 'selected' : '' }}>Matematika</option>
+                        <option value="Fisika" {{ request('subject') == 'Fisika' ? 'selected' : '' }}>Fisika</option>
+                        <option value="Kimia" {{ request('subject') == 'Kimia' ? 'selected' : '' }}>Kimia</option>
+                        <option value="Biologi" {{ request('subject') == 'Biologi' ? 'selected' : '' }}>Biologi</option>
+                        <option value="Bahasa Indonesia" {{ request('subject') == 'Bahasa Indonesia' ? 'selected' : '' }}>Bahasa Indonesia</option>
+                        <option value="Bahasa Inggris" {{ request('subject') == 'Bahasa Inggris' ? 'selected' : '' }}>Bahasa Inggris</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Cari
+                        </button>
+                        @if(request()->hasAny(['search', 'grade', 'subject']))
+                        <a href="{{ route('books.index') }}" class="btn btn-secondary">
+                            Reset
+                        </a>
                         @endif
-                        <div class="col text-end">
-                            <small class="text-muted">
-                                <i class="fas fa-book me-1"></i>
-                                <span class="fw-semibold">{{ $books->total() }}</span> buku
-                            </small>
-                        </div>
                     </div>
-
-                    <!-- Filter Info (Compact) -->
-                    @if(request()->hasAny(['search', 'grade', 'subject', 'date_from', 'date_to']))
-                    <div class="mt-2">
-                        <small class="text-muted">
-                            <i class="fas fa-filter me-1"></i>
-                            @if(request('search'))
-                                <span class="badge bg-primary bg-opacity-10 text-primary border-0 me-1" style="font-size: 0.7rem;">"{{ request('search') }}"</span>
-                            @endif
-                            @if(request('grade'))
-                                <span class="badge bg-info bg-opacity-10 text-info border-0 me-1" style="font-size: 0.7rem;">Kelas {{ request('grade') }}</span>
-                            @endif
-                            @if(request('subject'))
-                                <span class="badge bg-success bg-opacity-10 text-success border-0 me-1" style="font-size: 0.7rem;">{{ request('subject') }}</span>
-                            @endif
-                            @if(request('date_from'))
-                                <span class="badge bg-warning bg-opacity-10 text-warning border-0 me-1" style="font-size: 0.7rem;">{{ \Carbon\Carbon::parse(request('date_from'))->format('d/m/Y') }}</span>
-                            @endif
-                            @if(request('date_to'))
-                                <span class="badge bg-warning bg-opacity-10 text-warning border-0 me-1" style="font-size: 0.7rem;">- {{ \Carbon\Carbon::parse(request('date_to'))->format('d/m/Y') }}</span>
-                            @endif
-                        </small>
-                    </div>
-                    @endif
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
+</div>
+
+<!-- Results Info -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <p class="text-muted mb-0">Menampilkan {{ $books->count() }} dari {{ $books->total() }} buku</p>
 </div>
 
 <!-- Books Grid -->
 @if($books->count() > 0)
-    <div class="row g-3" id="booksContainer">
+    <div class="row g-3">
         @foreach($books as $book)
-        <div class="col-md-6 col-lg-4 book-item">
-            <div class="card border-0 shadow-sm h-100 d-flex flex-column">
-                <div class="card-body p-3 d-flex flex-column flex-grow-1">
-                    <!-- Header with Status -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div class="d-flex align-items-center">
-                            <div class="bg-primary bg-opacity-10 rounded p-2 me-3">
-                                <i class="fas fa-book text-primary"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-0" style="font-size: 0.95rem; line-height: 1.3;">
-                                    {{ Str::limit($book->title, 45) }}
-                                </h6>
-                                <small class="text-muted">{{ $book->book_type }}</small>
-                            </div>
-                        </div>
+                        <h6 class="mb-0" style="font-weight: 600; font-size: 0.9375rem;">{{ Str::limit($book->title, 40) }}</h6>
                         @if($book->stock > 10)
-                            <span class="badge bg-success bg-opacity-10 text-success border-0">Tersedia</span>
+                            <span class="badge bg-success">{{ $book->stock }}</span>
                         @elseif($book->stock > 0)
-                            <span class="badge bg-warning bg-opacity-10 text-warning border-0">Terbatas</span>
+                            <span class="badge bg-warning">{{ $book->stock }}</span>
                         @else
-                            <span class="badge bg-danger bg-opacity-10 text-danger border-0">Habis</span>
+                            <span class="badge bg-danger">0</span>
                         @endif
                     </div>
-
-                    <!-- Book Info -->
-                    <div class="mb-3" style="min-height: 80px;">
-                        <div class="d-flex flex-wrap gap-1 mb-2">
-                            <span class="badge bg-primary bg-opacity-10 text-primary border-0" style="font-size: 0.7rem;">
-                                {{ $book->subject }}
-                            </span>
-                            <span class="badge bg-info bg-opacity-10 text-info border-0" style="font-size: 0.7rem;">
-                                Kelas {{ $book->grade_level }}
-                            </span>
-                            <span class="badge bg-secondary bg-opacity-10 text-secondary border-0" style="font-size: 0.7rem;">
-                                {{ $book->curriculum_type }}
-                            </span>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <small class="text-muted">
-                                <i class="fas fa-boxes me-1"></i>
-                                Stok: <span class="fw-semibold text-dark">{{ $book->stock }}</span>
-                                @if($book->damaged_count > 0)
-                                    <span class="badge bg-danger ms-1" style="font-size: 0.65rem;">
-                                        <i class="fas fa-exclamation-triangle"></i> {{ $book->damaged_count }} rusak
-                                    </span>
-                                @endif
-                            </small>
-                            @if($book->curriculum_year)
-                                <small class="text-muted">{{ $book->curriculum_year }}</small>
-                            @endif
-                        </div>
+                    
+                    <p class="text-muted mb-2" style="font-size: 0.875rem;">
+                        {{ $book->subject }} • Kelas {{ $book->grade_level }}
+                    </p>
+                    
+                    <p class="text-muted mb-3" style="font-size: 0.8125rem;">
+                        {{ $book->publisher }}
                         @if($book->price)
-                        <div class="d-flex justify-content-between align-items-center">
-                            <small class="text-success fw-semibold">
-                                <i class="fas fa-money-bill-wave me-1"></i>
-                                Rp {{ number_format($book->price, 0, ',', '.') }}/unit
-                            </small>
-                            <small class="text-muted">
-                                Total: Rp {{ number_format($book->price * $book->stock, 0, ',', '.') }}
-                            </small>
-                        </div>
+                            <br>Rp {{ number_format($book->price, 0, ',', '.') }}
                         @endif
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="d-flex gap-2 mt-auto">
-                        <a href="{{ route('books.show', $book) }}" 
-                           class="btn btn-outline-primary btn-sm flex-fill" 
-                           title="Lihat Detail">
-                            <i class="fas fa-eye me-1"></i>Detail
+                    </p>
+                    
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('books.show', $book) }}" class="btn btn-sm btn-outline-primary flex-fill">
+                            Detail
                         </a>
-                        <a href="{{ route('books.edit', $book) }}" 
-                           class="btn btn-outline-warning btn-sm flex-fill" 
-                           title="Edit Buku">
-                            <i class="fas fa-edit me-1"></i>Edit
+                        <a href="{{ route('books.edit', $book) }}" class="btn btn-sm btn-primary flex-fill">
+                            Edit
                         </a>
-                        <form action="{{ route('books.destroy', $book) }}" method="POST" class="d-inline flex-fill" 
-                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus buku {{ $book->title }}?')">
+                        <form action="{{ route('books.destroy', $book) }}" method="POST" class="flex-fill" 
+                              onsubmit="return confirm('Hapus buku ini?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-outline-danger btn-sm w-100" title="Hapus Buku">
-                                <i class="fas fa-trash me-1"></i>Hapus
+                            <button type="submit" class="btn btn-sm btn-outline-secondary w-100">
+                                <i class="fas fa-trash"></i>
                             </button>
                         </form>
                     </div>

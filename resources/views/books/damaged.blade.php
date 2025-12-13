@@ -3,16 +3,14 @@
 @section('title', 'Buku Paket Rusak - Sistem Manajemen Buku Paket Sekolah')
 
 @section('content')
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">
-        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
-        Buku Paket Rusak
-    </h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ route('books.index') }}" class="btn btn-secondary">
-            <i class="fas fa-arrow-left me-2"></i>Kembali ke Semua Buku
-        </a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">Buku Rusak</h1>
+        <p class="page-subtitle">Daftar buku yang memerlukan perbaikan</p>
     </div>
+    <a href="{{ route('books.index') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Kembali
+    </a>
 </div>
 
 @if(session('success'))
@@ -23,59 +21,60 @@
 @endif
 
 <!-- Statistics Cards -->
-<div class="row mb-4">
+<div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="card border-warning shadow-sm">
+        <div class="card">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <h6 class="text-muted mb-1">Total Buku Rusak</h6>
-                        <h3 class="mb-0">{{ $books->total() }}</h3>
+                        <p class="text-muted mb-1" style="font-size: 0.875rem;">Total Buku Rusak</p>
+                        <h3 class="mb-0" style="font-size: 2rem; font-weight: 700;">{{ $books->total() }}</h3>
                     </div>
-                    <div class="text-warning">
-                        <i class="fas fa-book-dead fa-2x"></i>
+                    <div class="rounded p-2 border border-danger">
+                        <i class="fas fa-exclamation-triangle text-danger"></i>
                     </div>
                 </div>
+                <p class="text-muted mb-0" style="font-size: 0.875rem;">Judul buku</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card border-danger shadow-sm">
+        <div class="card">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <h6 class="text-muted mb-1">Total Unit Rusak</h6>
-                        <h3 class="mb-0">{{ $books->sum('damaged_count') }}</h3>
+                        <p class="text-muted mb-1" style="font-size: 0.875rem;">Total Unit Rusak</p>
+                        <h3 class="mb-0" style="font-size: 2rem; font-weight: 700;">{{ $books->sum('damaged_count') }}</h3>
                     </div>
-                    <div class="text-danger">
-                        <i class="fas fa-times-circle fa-2x"></i>
+                    <div class="rounded p-2 border border-danger">
+                        <i class="fas fa-book-dead text-danger"></i>
                     </div>
                 </div>
+                <p class="text-muted mb-0" style="font-size: 0.875rem;">Unit perlu perbaikan</p>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card border-info shadow-sm">
+        <div class="card">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
-                        <h6 class="text-muted mb-1">Perlu Perhatian</h6>
-                        <h3 class="mb-0">{{ $books->where('condition', 'rusak')->count() }}</h3>
+                        <p class="text-muted mb-1" style="font-size: 0.875rem;">Kondisi Rusak</p>
+                        <h3 class="mb-0" style="font-size: 2rem; font-weight: 700;">{{ $books->where('condition', 'rusak')->count() }}</h3>
                     </div>
-                    <div class="text-info">
-                        <i class="fas fa-tools fa-2x"></i>
+                    <div class="rounded p-2 border border-danger">
+                        <i class="fas fa-times-circle text-danger"></i>
                     </div>
                 </div>
+                <p class="text-muted mb-0" style="font-size: 0.875rem;">Perlu perhatian</p>
             </div>
         </div>
     </div>
 </div>
 
-<div class="card shadow">
-    <div class="card-header bg-warning bg-opacity-10">
-        <h6 class="m-0 text-dark">
-            <i class="fas fa-list me-2"></i>Daftar Buku Paket Rusak
-        </h6>
+<div class="card">
+    <div class="card-header">
+        <h6 class="mb-0">Daftar Buku Rusak</h6>
     </div>
     <div class="card-body">
         @if($books->count() > 0)
@@ -103,42 +102,26 @@
                                 <br>
                                 <small class="text-muted">{{ $book->book_type }}</small>
                             </td>
-                            <td>
-                                <span class="badge bg-primary">{{ $book->subject }}</span>
-                            </td>
-                            <td>
-                                <span class="badge bg-info">Kelas {{ $book->grade_level }}</span>
-                            </td>
+                            <td>{{ $book->subject }}</td>
+                            <td>Kelas {{ $book->grade_level }}</td>
                             <td>
                                 @if($book->condition == 'rusak')
-                                    <span class="badge bg-danger">
-                                        <i class="fas fa-exclamation-circle me-1"></i>Rusak
-                                    </span>
+                                    <span class="badge bg-danger">Rusak</span>
                                 @else
-                                    <span class="badge bg-warning">
-                                        <i class="fas fa-exclamation-triangle me-1"></i>Ada Kerusakan
-                                    </span>
+                                    <span class="text-muted">Ada Kerusakan</span>
                                 @endif
                             </td>
-                            <td>
-                                <span class="badge bg-secondary">{{ $book->stock }}</span>
-                            </td>
-                            <td>
-                                <span class="badge bg-danger">{{ $book->damaged_count }}</span>
-                            </td>
-                            <td>
-                                <span class="badge bg-success">{{ $book->getAvailableStock() }}</span>
-                            </td>
+                            <td>{{ $book->stock }}</td>
+                            <td><span class="text-danger fw-semibold">{{ $book->damaged_count }}</span></td>
+                            <td>{{ $book->getAvailableStock() }}</td>
                             <td>
                                 <div class="d-flex gap-2">
                                     <a href="{{ route('books.show', $book) }}" 
-                                       class="btn btn-sm btn-info text-white" 
-                                       title="Lihat Detail">
+                                       class="btn btn-sm btn-outline-primary action-btn">
                                         <i class="fas fa-eye me-1"></i>Detail
                                     </a>
                                     <a href="{{ route('books.edit', $book) }}" 
-                                       class="btn btn-sm btn-warning text-white" 
-                                       title="Edit">
+                                       class="btn btn-sm btn-primary action-btn">
                                         <i class="fas fa-edit me-1"></i>Edit
                                     </a>
                                 </div>
@@ -150,7 +133,46 @@
             </div>
 
             <div class="mt-3">
-                {{ $books->links() }}
+                @if ($books->hasPages())
+                    <nav>
+                        <ul class="pagination pagination-sm justify-content-center mb-0">
+                            {{-- Previous --}}
+                            @if ($books->onFirstPage())
+                                <li class="page-item disabled">
+                                    <span class="page-link">‹ Sebelumnya</span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $books->previousPageUrl() }}">‹ Sebelumnya</a>
+                                </li>
+                            @endif
+
+                            {{-- Page Numbers --}}
+                            @foreach(range(1, $books->lastPage()) as $page)
+                                @if($page == $books->currentPage())
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ $page }}</span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $books->url($page) }}">{{ $page }}</a>
+                                    </li>
+                                @endif
+                            @endforeach
+
+                            {{-- Next --}}
+                            @if ($books->hasMorePages())
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $books->nextPageUrl() }}">Selanjutnya ›</a>
+                                </li>
+                            @else
+                                <li class="page-item disabled">
+                                    <span class="page-link">Selanjutnya ›</span>
+                                </li>
+                            @endif
+                        </ul>
+                    </nav>
+                @endif
             </div>
         @else
             <div class="text-center py-5">
@@ -165,15 +187,63 @@
     </div>
 </div>
 
-<!-- Info Box -->
-<div class="alert alert-info mt-4" role="alert">
-    <h6 class="alert-heading">
-        <i class="fas fa-info-circle me-2"></i>Informasi
-    </h6>
-    <p class="mb-0">
-        Halaman ini menampilkan semua buku paket yang memiliki kerusakan atau dalam kondisi rusak. 
-        Anda dapat mengedit kondisi buku untuk memperbarui status kerusakan.
-    </p>
-</div>
 
 @endsection
+
+<style>
+/* Pagination styling */
+.pagination {
+    gap: 0.25rem;
+}
+
+.pagination .page-link {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    color: #6b7280;
+    transition: all 0.2s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: #f9fafb;
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* Action button hover animation */
+.action-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+/* Remove background colors from badges */
+.badge.bg-danger {
+    background-color: transparent !important;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+</style>
