@@ -166,4 +166,37 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Quick Actions Hover Effect */
+.mb-5 .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mb-5 .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* Icon container hover effect */
+.mb-5 .card:hover .bg-primary {
+    background-color: rgba(13, 110, 253, 0.2) !important;
+}
+
+.mb-5 .card:hover .bg-danger {
+    background-color: rgba(220, 53, 69, 0.2) !important;
+}
+
+/* Icon scale on hover */
+.mb-5 .card:hover i {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+/* Text color on hover */
+.mb-5 .card:hover h6 {
+    color: #0d6efd;
+    transition: color 0.2s ease;
+}
+</style>
 @endsection
