@@ -12,11 +12,9 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card shadow">
-            <div class="card-body">
-                <form action="{{ route('books.update', $book) }}" method="POST">
+<div class="card shadow">
+    <div class="card-body">
+        <form action="{{ route('books.update', $book) }}" method="POST">
                     @csrf
                     @method('PUT')
                     
@@ -342,27 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toggleCustomCurriculumEdit();
 });
 </script>
-
-    <div class="col-md-4">
-        <div class="card shadow">
-            <div class="card-header">
-                <h6 class="m-0">Informasi</h6>
-            </div>
-            <div class="card-body">
-                <p class="text-muted small">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Pastikan semua perubahan sudah benar sebelum menyimpan.
-                </p>
-                <hr>
-                <div class="small">
-                    <strong>Dibuat:</strong><br>
-                    {{ $book->created_at->format('d F Y, H:i') }}
-                    <br><br>
-                    <strong>Terakhir Diperbarui:</strong><br>
-                    {{ $book->updated_at->format('d F Y, H:i') }}
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 @endsection

@@ -232,7 +232,7 @@
         @endif
     </div>
 
-    @if($request->hasAny(['category_id', 'subject', 'grade_level', 'curriculum_type', 'condition', 'publisher', 'published_year', 'date_from', 'date_to']))
+    @if($request->hasAny(['category_id', 'subject', 'grade_level', 'curriculum_type', 'publisher', 'published_year', 'date_from', 'date_to']))
     <div class="filter-info">
         <h3>Filter yang Diterapkan:</h3>
         @if($request->filled('category_id'))
@@ -246,9 +246,6 @@
         @endif
         @if($request->filled('curriculum_type'))
             <p><strong>Kurikulum:</strong> {{ $request->curriculum_type }}</p>
-        @endif
-        @if($request->filled('condition'))
-            <p><strong>Kondisi:</strong> {{ ucfirst($request->condition) }}</p>
         @endif
         @if($request->filled('publisher'))
             <p><strong>Penerbit:</strong> {{ $request->publisher }}</p>
@@ -299,7 +296,6 @@
                 <th style="width: 5%;">Stok</th>
                 <th style="width: 5%;">Rusak</th>
                 <th style="width: 9%;">Harga</th>
-                <th style="width: 6%;">Kondisi</th>
             </tr>
         </thead>
         <tbody>
@@ -327,11 +323,10 @@
                         -
                     @endif
                 </td>
-                <td>{{ ucfirst($book->condition) }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="12" style="text-align: center; padding: 20px; color: #888;">
+                <td colspan="11" style="text-align: center; padding: 20px; color: #888;">
                     Tidak ada data buku yang sesuai dengan filter
                 </td>
             </tr>
@@ -344,7 +339,6 @@
                 <td><strong>{{ number_format($totalStock) }}</strong></td>
                 <td><strong>{{ number_format($totalDamaged) }}</strong></td>
                 <td><strong>Rp {{ number_format($totalValue, 0, ',', '.') }}</strong></td>
-                <td>-</td>
             </tr>
         </tfoot>
         @endif

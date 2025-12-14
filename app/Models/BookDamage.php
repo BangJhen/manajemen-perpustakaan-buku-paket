@@ -54,10 +54,10 @@ class BookDamage extends Model
     public function getSeverityBadgeClass()
     {
         return match($this->severity) {
-            'ringan' => 'bg-warning',
-            'sedang' => 'bg-orange',
-            'berat' => 'bg-danger',
-            default => 'bg-secondary'
+            'ringan' => 'text-warning',
+            'sedang' => 'text-danger',
+            'berat' => 'text-danger fw-bold',
+            default => 'text-secondary'
         };
     }
 
@@ -67,10 +67,10 @@ class BookDamage extends Model
     public function getStatusBadgeClass()
     {
         return match($this->status) {
-            'rusak' => 'bg-danger',
-            'diperbaiki' => 'bg-success',
-            'tidak_dapat_diperbaiki' => 'bg-dark',
-            default => 'bg-secondary'
+            'rusak' => 'text-danger',
+            'diperbaiki' => 'text-success',
+            'tidak_dapat_diperbaiki' => 'text-secondary',
+            default => 'text-secondary'
         };
     }
 }

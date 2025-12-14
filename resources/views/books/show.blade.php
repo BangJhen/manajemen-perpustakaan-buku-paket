@@ -158,19 +158,6 @@
                         </div>
                         @endif
 
-                        <div class="row mb-3">
-                            <div class="col-sm-4">
-                                <strong>Kondisi:</strong>
-                            </div>
-                            <div class="col-sm-8">
-                                @if($book->condition == 'rusak')
-                                    <span class="text-danger fw-semibold">Rusak</span>
-                                @else
-                                    <span class="text-success fw-semibold">Baik</span>
-                                @endif
-                            </div>
-                        </div>
-
                         @if($book->damaged_count > 0)
                         <div class="row mb-3">
                             <div class="col-sm-4">
@@ -273,12 +260,12 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <span class="badge {{ $damage->getSeverityBadgeClass() }}">
+                                        <span class="{{ $damage->getSeverityBadgeClass() }} fw-semibold">
                                             {{ ucfirst($damage->severity) }}
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge {{ $damage->getStatusBadgeClass() }}">
+                                        <span class="{{ $damage->getStatusBadgeClass() }} fw-semibold">
                                             {{ str_replace('_', ' ', ucfirst($damage->status)) }}
                                         </span>
                                     </td>

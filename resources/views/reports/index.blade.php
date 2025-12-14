@@ -139,16 +139,6 @@
                         </select>
                     </div>
 
-                    <!-- Condition Filter -->
-                    <div class="col-md-3">
-                        <label for="condition" class="form-label">Kondisi</label>
-                        <select class="form-select" id="condition" name="condition">
-                            <option value="">Semua Kondisi</option>
-                            <option value="baik" {{ request('condition') == 'baik' ? 'selected' : '' }}>Baik</option>
-                            <option value="rusak" {{ request('condition') == 'rusak' ? 'selected' : '' }}>Rusak</option>
-                        </select>
-                    </div>
-
                     <!-- Publisher Filter -->
                     <div class="col-md-3">
                         <label for="publisher" class="form-label">Penerbit</label>
@@ -231,7 +221,6 @@
                         <th>Rusak</th>
                         <th>Harga</th>
                         <th>Total Nilai</th>
-                        <th>Kondisi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -270,11 +259,10 @@
                                 -
                             @endif
                         </td>
-                        <td>{{ ucfirst($book->condition) }}</td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="13" class="text-center py-4">
+                        <td colspan="12" class="text-center py-4">
                             <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
                             <p class="text-muted">Tidak ada data buku yang sesuai dengan filter</p>
                         </td>
@@ -289,7 +277,6 @@
                         <th><strong>{{ number_format($totalDamaged) }}</strong></th>
                         <th>-</th>
                         <th><strong>Rp {{ number_format($totalValue, 0, ',', '.') }}</strong></th>
-                        <th>-</th>
                     </tr>
                 </tfoot>
                 @endif

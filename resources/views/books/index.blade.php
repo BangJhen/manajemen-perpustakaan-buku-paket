@@ -73,7 +73,7 @@
         @foreach($books as $book)
         <div class="col-md-6 col-lg-4">
             <div class="card h-100">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <h6 class="mb-0" style="font-weight: 600; font-size: 0.9375rem;">{{ Str::limit($book->title, 40) }}</h6>
                         @if($book->stock > 10)
@@ -96,21 +96,23 @@
                         @endif
                     </p>
                     
-                    <div class="d-flex gap-2">
-                        <a href="{{ route('books.show', $book) }}" class="btn btn-sm btn-outline-primary flex-fill">
-                            Detail
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top mt-auto">
+                        <a href="{{ route('books.show', $book) }}" class="text-primary text-decoration-none" style="font-size: 0.875rem;">
+                            Lihat Detail →
                         </a>
-                        <a href="{{ route('books.edit', $book) }}" class="btn btn-sm btn-primary flex-fill">
-                            Edit
-                        </a>
-                        <form action="{{ route('books.destroy', $book) }}" method="POST" class="flex-fill" 
-                              onsubmit="return confirm('Hapus buku ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-secondary w-100">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('books.edit', $book) }}" class="text-secondary text-decoration-none" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form action="{{ route('books.destroy', $book) }}" method="POST" class="d-inline" 
+                                  onsubmit="return confirm('Hapus buku ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-link text-secondary p-0 text-decoration-none" title="Hapus">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -145,20 +147,33 @@
     </div>
 @endif
 
-<!-- JavaScript for Button Animations -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Add smooth animations only for buttons
-    const style = document.createElement('style');
-    style.textContent = `
-        .btn {
-            transition: all 0.2s ease;
-        }
-        .btn:hover {
-            transform: translateY(-1px);
-        }
-    `;
-    document.head.appendChild(style);
-});
-</script>
+<style>
+/* Card hover effect */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Action icons hover */
+.card a i, .card button i {
+    transition: color 0.2s ease;
+}
+
+.card a:hover i {
+    color: #0d6efd !important;
+}
+
+.card button:hover i {
+    color: #dc3545 !important;
+}
+
+/* Detail link hover */
+.card a[href*="show"]:hover {
+    text-decoration: underline !important;
+}
+</style>
 @endsection
